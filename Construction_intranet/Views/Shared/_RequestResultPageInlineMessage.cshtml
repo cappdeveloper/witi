@@ -1,0 +1,22 @@
+﻿@model Construction_intranet.Models.RequestResultModel
+@{
+    var type = "";
+    switch (Model.InfoType)
+    {
+        case Construction_intranet.Models.RequestResultInfoType.Information: type = "alert-info"; break;
+        case Construction_intranet.Models.RequestResultInfoType.Success: type = "alert-success"; break;
+        case Construction_intranet.Models.RequestResultInfoType.Warning: type = ""; break;
+        case Construction_intranet.Models.RequestResultInfoType.ErrorOrDanger: type = "alert-danger"; break;
+    }
+}
+<div id="MessageContainer" class="alert @type">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    @if (@Model.Title != null && @Model.Title.Length > 0)
+    {
+        <strong>@Model.Title&#32;</strong>
+    }
+    <br />
+    @Html.Raw(Model.Message)
+</div>
+
+

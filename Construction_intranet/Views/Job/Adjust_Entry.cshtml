@@ -1,0 +1,292 @@
+﻿
+@model List<Construction_intranet.Models.JobModel>
+
+
+
+
+<div class="row">
+    <div class="panel panel-danger">
+
+        <div class="panel-body">
+          <div class="table-responsive">
+              <div class="well">
+
+                  <table class="table">
+                      <thead>
+                          <tr>
+                              <th>Available Items to Adjust</th>
+                               <th>Quantity</th>
+
+
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td class="col-lg-8">
+                                  @*//  <input class="col-lg-4" type="text" id="itemnumber" required />*@
+                                  <div class="form-group">
+
+                                      @Html.DropDownList("Itemid", new SelectList(ViewBag.dailyentry, "ItemNumber", "Description"), new { @class = "form-control", @style = "display:inline" })
+
+                                      <input type="hidden" id="idJobData" value="@ViewBag.value" />
+
+
+                                       </div>
+                              </td>
+
+
+                              <td>
+                                  <input type="text" id="idquantity" required />
+
+
+                                  <span class="error">Valid quantity required</span>
+                              </td>
+
+
+
+                              <td>
+                                  <input type="button" class="btn btn-black" id="add" value="+Adjust Entry" />
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+            </div>
+
+            <div id="orderItems" class="table-bordered">
+
+            </div>
+            <div style="padding:10px 0px; text-align:right">
+                <input id="submit" type="button" class="btn btn-primary" value="Submit Adjust Entry" />
+            </div>
+
+
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+@section breadcrumbs{
+    <li><a href="/Vendor">Jobs</a></li>
+    <li class="active"><span>@ViewBag.Action</span></li>
+}
+
+@section styles{
+    <link href="~/Content/css/jquery.datatables.css" rel="stylesheet" />
+    <link href="~/Content/css/dropzone.css" rel="stylesheet" />
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/jquery.datatables.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script src="~/Scripts/dropzone.min.js"></script>
+    <script src="~/Scripts/dropzone.min.js"></script>
+
+    <script>
+
+      
+        jQuery(document).ready(function () {
+
+       
+
+            //$('#document-datatable').dataTable(
+            //{
+            //    "sPaginationType": "full_numbers",
+            //    "aoColumnDefs": [
+            //        { 'bSortable': false, 'aTargets': [-1, -2] }
+            //    ]
+            //});
+
+          
+
+            $('#liDaily').addClass('active');
+
+
+
+
+            var orderItems = [];
+
+            $('#add').live('click', function () {
+               
+                //Check validation of order item
+                var isValidItem = true;
+                //if ($('#itemnumber').val().trim() == '') {
+                //    isValidItem = false;
+                //    $('#itemnumber').siblings('span.error').css('visibility', 'visible');
+                //}
+                //else {
+                //    $('#itemnumber').siblings('span.error').css('visibility', 'hidden');
+                //}
+              
+
+
+                if (!($('#idquantity').val().trim() != '' && !isNaN($('#idquantity').val().trim()))) {
+                    isValidItem = false;
+                    $('#idquantity').siblings('span.error').css('visibility', 'visible');
+                }
+                else {
+                    $('#idquantity').siblings('span.error').css('visibility', 'hidden');
+                }
+
+            
+                //Add item to list if valid
+                if (isValidItem) {
+                    orderItems.push({
+                        ItemNumber: $('#Itemid').val(),
+                        JobDataId: $('#idJobData').val(),
+                        //ItemNumber:$('#itemnumber').val(),
+                       Quantity: parseInt($('#idquantity').val().trim()),
+                });
+
+                    //Clear fields
+                    //$('#itemName').val('').focus();
+                   $('#idquantity').val('');
+
+                }
+                //populate order items
+                GeneratedItemsTable();
+
+            })
+            //Save button click function
+            $('#submit').live('click', function () {
+                //validation of order
+                var isAllValid = true;
+
+
+                //Save if valid
+                if (isAllValid) {
+                    var data = {
+                      
+                        DailyEntryItems : orderItems
+                    }
+
+                    $(this).val('Please wait...');
+
+                    $.ajax({
+                        url: '/Job/SaveDailyAdjustItems',
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        dataType: "JSON",
+                        contentType: "application/json",
+                        success: function (d) {
+                            //check is successfully save to database
+                            if (d.status == true) {
+                                //will send status from server side
+                                alert('Successfully done.');
+                                //clear form
+                                orderItems = [];
+
+                            }
+                            else {
+                                alert('Failed');
+                            }
+                            $('#submit').val('Save');
+                        },
+                        error: function () {
+                            alert('Error. Please try again.');
+                            $('#submit').val('Save');
+                        }
+                    });
+                }
+
+            })
+            //function for show added items in table
+            function GeneratedItemsTable() {
+                if (orderItems.length > 0) {
+                    var $table = $('<table class="table"/>');
+                    $table.append('<thead><tr><th>Item ID</th><th>Quantity</th></tr></thead>');
+                    var $tbody = $('<tbody/>');
+                    $.each(orderItems, function (i, val) {
+                        var $row = $('<tr/>');
+                        $row.append($('<td/>').html(val.ItemNumber));
+                     
+                        $row.append($('<td/>').html(val.Quantity));
+
+                        $tbody.append($row);
+                    });
+                    $table.append($tbody);
+                    $('#orderItems').html($table);
+                }
+            }
+     
+
+
+
+        });
+    </script>
+
+<style type="text/css">
+    .field-validation-error {
+        color: #f00;
+    }
+
+    .field-validation-valid {
+        display: none;
+    }
+
+    .input-validation-error {
+        border: 1px solid #f00;
+        background-color: #fee;
+    }
+
+    .validation-summary-errors {
+        font-weight: bold;
+        color: #f00;
+    }
+
+    .validation-summary-valid {
+        display: none;
+    }
+</style>
+<style>
+    /*Adding some css for looks good*/
+    span.error {
+        display: block;
+        visibility: hidden;
+        color: red;
+        font-size: 90%;
+    }
+
+
+    /*css for table*/
+    .container td {
+        vertical-align: top;
+    }
+
+    .tablecontainer table {
+        width: 100%;
+        border-collapse: collapse;
+        border-top: 1px solid #BFAEAE;
+        border-right: 1px solid #BFAEAE;
+    }
+
+    .tablecontainer th {
+        border-bottom: 2px solid #BFAEAE !important;
+    }
+
+    .tablecontainer th, .tablecontainer td {
+        text-align: left;
+        border-left: 1px solid #BFAEAE;
+        padding: 5px;
+        border-bottom: 1px solid #BFAEAE;
+    }
+
+    .ui-widget {
+        font-size: 12px !important;
+    }
+</style>
+
+
+
+
+}
+
+

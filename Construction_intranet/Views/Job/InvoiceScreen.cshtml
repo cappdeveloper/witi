@@ -1,0 +1,193 @@
+﻿@model Construction_intranet.Models.PaymentModel
+@{
+    ViewBag.Title = "InvoiceScreen";
+}
+
+<section class="hbox stretch">
+
+    <aside class="aside-md bg-white b-r scrollable" id="subNav">
+        <div class="wrapper b-b header"> Item Result Project Name <span class="label label-success">@ViewBag.ProjectName </span></div>
+
+
+
+        <ul class="nav">
+
+
+
+
+            <li class="b-b b-light ">
+                <a href="/Job/DailyEntry/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-file-o"></i>+ Daily Entry/Adjustment</a>
+            </li>
+            <li class="b-b b-light ">
+                <a href="/Job/ChangeOrder/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-clock-o"></i>Add a Change Order</a>
+            </li>
+
+            <li class="b-b b-light ">
+                <a href="/Job/IndexDailyEntry/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-map-marker"></i>Daily Lookup</a>
+            </li>
+
+
+            <li class="b-b b-light">
+                <a href="/Job/ItemResult/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-pencil"></i>Item Lookup</a>
+            </li>
+            <li class="b-b b-light">
+                <a href="/Job/CreateEditPayment/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>Create Payment</a>
+            </li>
+            <li class="b-b b-light">
+                <a href="/Job/IndexPayment/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>All Payments</a>
+            </li>
+            <li class="b-b b-light bg-light dker text-white">
+                <a href="/Job/InvoiceScreen/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>Invoice</a>
+            </li>
+         
+        </ul>
+
+    </aside>
+
+
+    <aside>
+        <section class="vbox">
+            <div class="table table-bordered">
+                <div class="row">
+                    <div class="col-xs-6">
+
+                        <div class="text">
+                            <i class="fa fa-file text-warning"></i> Project Name - @Model.ProjectName<br />
+                            <i class="fa fa-home text-primary"></i>Project Address - @Model.ProjectAddress
+                        </div>
+
+
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="text">
+                            <i class="fa fa-user text-warning"></i> Contractor Name - @Model.GeneralContractorName<br />
+                            <i class="fa fa-home text-primary"></i>Contractor Address - @Model.GeneralContractorAddress
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <section class="scrollable wrapper">
+                    <div class="row">
+
+
+                        
+                        <!-- Percentage Received -->
+                        <div class="col-lg-6">
+                            @if (Model != null)
+            {
+                            <section class="panel panel-default">
+                                <header class="panel-heading">
+                                    Contract Information
+                                </header>
+                                <div class="panel-body">
+                                    <div class="text-xs">
+                                        <i class="fa fa-circle text-warning"></i> Outstanding - $@(Model.TotalWorkCompleted - (Model.TotalWorkCompleted * (.02)))
+                                        <i class="fa fa-circle text-primary"></i> Paid - $@Model.PreviousPayment
+                                    </div>
+                                    <div class="list-group bg-white table table-bordered table-condensed table-hover">
+                                        <a href="" data-original-title="$@Model.OriginalContractAmount" data-toggle="tooltip" data-placement="top" title="" class="list-group-item">
+                                            Original Contract Amount- <small class="text-muted"><span class="pull-right badge bg-success">$@Model.OriginalContractAmount </span></small>
+                                        </a>
+                                        <a data-original-title="$@Model.AmendedContractAmount" data-toggle="tooltip" data-placement="top" title="" class="list-group-item">
+                                            Amended Contract Amount- <small class="text-muted"><span class="pull-right badge bg-success">$@Model.AmendedContractAmount </span></small>
+                                        </a>
+                                        <a data-original-title="@(Model.OriginalContractAmount + Model.AmendedContractAmount)" data-toggle="tooltip" data-placement="top" title="" class="list-group-item">
+                                           Final Contract Amount- <small class="text-muted"><span class="pull-right badge bg-danger">$@(Model.OriginalContractAmount + Model.AmendedContractAmount)</span></small>
+                                        </a>
+                                        <a data-toggle="tooltip" data-placement="top" title="" class="list-group-item">
+                                        </a>
+                                        <a data-original-title="$@Model.TotalWorkCompleted" data-toggle="tooltip" data-placement="top" title="" class="list-group-item">
+                                            Total Work Completed - <small class="text-muted"><span class="pull-right badge bg-success">$@Model.TotalWorkCompleted</span></small>
+                                        </a>
+                                        <a data-original-title="@(Model.TotalWorkCompleted * .02)" data-toggle="tooltip" data-placement="top" title="" class="list-group-item">
+                                            2% Retainage relaeased- <small class="text-muted"><span class="pull-right badge bg-success">$@(Model.TotalWorkCompleted * .02)</span></small>
+                                        </a>
+                                        <a data-original-title="@(Model.TotalWorkCompleted - (Model.TotalWorkCompleted * (.02)))" data-toggle="tooltip" data-placement="top" title="" class="list-group-item">
+                                            Net Amount Due - <small class="text-muted"><span class="pull-right badge bg-success">$@(Model.TotalWorkCompleted - (Model.TotalWorkCompleted * (.02)))</span></small>
+                                        </a>
+                                        <a data-original-title="@(Model.TotalWorkCompleted - Model.TotalWorkCompleted * (.02))" data-toggle="tooltip" data-placement="top" title="" class="list-group-item">
+                                            Less Previous Payment - <small class="text-muted"><span class="pull-right badge bg-success">$@Model.PreviousPayment</span></small>
+                                        </a>
+                                        <a data-original-title="" data-toggle="tooltip" data-placement="top" title="" class="list-group-item">
+                                  Due This Estimate - <small class="text-muted"><span class="pull-right badge bg-dark">@Convert.ToInt32((Model.TotalWorkCompleted - (Model.TotalWorkCompleted * (.02))-Model.PreviousPayment))</span></small>
+                                        </a>
+                                        <a>
+                                            <div class="easypiechart text-info easyPieChart" data-percent="@(Convert.ToInt32((Model.Total * 100) / Model.FullTotal))" data-line-width="5" data-track-color="#f0f0f0" data-bar-color="#4cc0c1" data-rotate="115" data-scale-color="false" data-size="120" data-animate="2000" style="width: 120px; height: 120px; line-height: 120px;">
+                                                <span class="h2 step font-bold">@(Convert.ToInt32((Model.Total * 100) / Model.FullTotal))</span>%
+                                                <div class="easypie-text text-muted">Work Complete</div>
+                                                <canvas width="120" height="120"></canvas>
+                                            </div>
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </section>
+                        }
+                    </div>
+
+                    <!-- Revenue Collection -->
+                    <div class="col-lg-6">
+                        <section class="panel panel-default">
+                            <header class="panel-heading">
+                                Payment Information
+                            </header>
+                            <div class="panel-body">
+
+                                <div class="list-group bg-white table table-bordered table-condensed table-hover">
+                                    @if (ViewBag.Payment != null)
+                                    {
+                                        int i = 1;
+                                        foreach (var item in ViewBag.Payment)
+                                        {
+
+                                            <a href="" data-original-title="@item.Total" data-toggle="tooltip" data-placement="top" title="" class="list-group-item">
+                                                <b>Payment No #@i </b> <small class="text-muted">@item.createddate.ToShortDateString()<span class="pull-right badge bg-danger"> $@item.Total </span></small>
+                                           </a>
+                                            ++i;
+                                        }
+                                    }
+                                </div>
+                                <section class="panel panel-default">
+                                    <header class="panel-heading">
+                                        Change Order Payment
+                                    </header>
+                                    <div class="panel-body">
+                                        <div class="list-group bg-white table table-bordered table-condensed table-hover">
+                                            @if (ViewBag.Payment1 != null)
+                                            {
+                                                int i = 1;
+                                                foreach (var item in ViewBag.Payment1)
+                                                {
+
+                                                    <a href="" data-original-title="@item.Total" data-toggle="tooltip" data-placement="top" title="" class="list-group-item">
+                                                        <b>Change Order #@i </b> <small class="text-muted">@item.createddate.ToShortDateString()<span class="pull-right badge bg-warning"> $@item.Total </span></small>
+                                                    </a>
+                                                   ++i;
+                                                }
+                                            }
+                                        </div>
+
+                                    </div>
+
+                                </section>
+                            </div>
+
+                        </section>
+                    </div>
+
+
+                </div>
+        
+
+        
+</section>
+            </section>
+       
+
+</aside>
+   </section>
+
+

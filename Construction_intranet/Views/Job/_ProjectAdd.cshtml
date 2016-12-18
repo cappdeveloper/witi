@@ -1,0 +1,158 @@
+﻿@model Construction_intranet.Models.JobMangementViewModel
+
+
+
+<div class="row">
+
+
+    <div id="alert-container" class="col-sm-12" style="margin-top: 5px;">
+    </div>
+    <div class="panel">
+
+      
+        <div class="panel-body">
+
+
+            @using (Html.BeginForm("CreateEdit", "Job", FormMethod.Post, new { Id = "GeneralJobDetailsForm", @class = "form-horizontal" }))
+            {
+                @Html.HiddenFor(model => model.GeneralDetails.ID)
+
+
+                <p>
+                    @Html.AntiForgeryToken()
+                </p>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Job Name</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="Name" placeholder="Enter Job Name" value="@Model.GeneralDetails.Name" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Job Address</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="Address" placeholder="Enter Job Address" value="@Model.GeneralDetails.Address" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">City</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="City" placeholder="Enter City" value="@Model.GeneralDetails.City" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">State</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="State" placeholder="Enter State" value="@Model.GeneralDetails.State" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Zip</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="Zip" placeholder="Enter Zip Code" value="@Model.GeneralDetails.Zip" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Phone</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="Phone" placeholder="Enter Phone" value="@Model.GeneralDetails.Phone" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Fax</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="Fax" placeholder="Enter Fax" value="@Model.GeneralDetails.Fax" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Email</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="Email" placeholder="Enter Email" value="@Model.GeneralDetails.Email" class="form-control">
+                    </div>
+                </div>
+
+
+
+
+
+
+
+            }
+
+            <div class="row">
+                <div class="col-sm-9 col-sm-offset-2" style="margin-top: 10px; padding-right: 30px;">
+                    <button id="save-job-details-button" class="btn btn-primary pull-right">Submit Job</button>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+@section breadcrumbs{
+    <li><a href="/Vendor">User</a></li>
+    <li class="active"><span>@ViewBag.Action</span></li>
+}
+
+@section styles{
+    <link href="~/Content/css/jquery.datatables.css" rel="stylesheet" />
+    <link href="~/Content/css/dropzone.css" rel="stylesheet" />
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/jquery.datatables.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script src="~/Scripts/dropzone.min.js"></script>
+    <script src="~/Scripts/dropzone.min.js"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+
+            //$('#contact-datatable').dataTable(
+            //{
+            //    "sPaginationType": "full_numbers",
+            //    "aoColumnDefs": [
+            //        { 'bSortable': false, 'aTargets': [-1, -2, -3, -4] }
+            //    ]
+            //});
+
+            //$('#document-datatable').dataTable(
+            //{
+            //    "sPaginationType": "full_numbers",
+            //    "aoColumnDefs": [
+            //        { 'bSortable': false, 'aTargets': [-1, -2] }
+            //    ]
+            //});
+
+            // Chosen Select
+            jQuery("select").chosen({
+                'min-width': '100px',
+                'white-space': 'nowrap',
+                disable_search_threshold: 10
+            });
+
+
+            // Show aciton upon row hover
+            jQuery('.table-hidaction tbody tr').hover(function () {
+                jQuery(this).find('.table-action-hide a').animate({ opacity: 1 });
+            }, function () {
+                jQuery(this).find('.table-action-hide a').animate({ opacity: 0 });
+            });
+
+        
+
+
+
+        });
+    </script>
+
+}
+
+

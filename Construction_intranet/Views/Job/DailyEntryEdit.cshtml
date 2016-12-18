@@ -1,0 +1,946 @@
+﻿@model Construction_intranet.Models.JobDataModel
+<section class="hbox stretch">
+
+
+    <aside class="aside-md bg-white b-r scrollable" id="subNav">
+        <div class="wrapper b-b header">Edit Daily Entry/Adjustment</div>
+
+
+
+
+        <ul class="nav">
+
+
+            <li class="b-b b-light ">
+                <a href="/Job/DailyEntry/@ViewBag.nId"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-file-o"></i>+ Daily Entry/Adjustment</a>
+            </li>
+            <li class="b-b b-light ">
+                <a href="/Job/ChangeOrder/@ViewBag.nId"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-clock-o"></i>Add a Change Order</a>
+            </li>
+
+            <li class="b-b b-light bg-light dker text-white">
+                <a href="/Job/IndexDailyEntry/@ViewBag.nId"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-map-marker"></i>Daily Lookup</a>
+            </li>
+
+
+            <li class="b-b b-light">
+                <a href="/Job/ItemResult/@ViewBag.nId"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-pencil"></i>Item Lookup</a>
+            </li>
+            <li class="b-b b-light">
+                <a href="/Job/CreateEditPayment/@ViewBag.nId"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>Create Payment</a>
+            </li>
+            <li class="b-b b-light">
+                <a href="/Job/IndexPayment/@ViewBag.nId"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>All Payments</a>
+            </li>
+            <li class="b-b b-light">
+                <a href="/Job/InvoiceScreen/@ViewBag.nId"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>Invoice</a>
+            </li>
+
+
+
+
+        </ul>
+
+    </aside>
+
+    <aside>
+        <section class="vbox">
+            <header class="header bg-white b-b clearfix"></header>
+
+
+
+           <section class="scrollable wrapper">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h6 class="panel-title"><i class="icon-spinner7 spin"></i>Job Detail</h6>
+                    </div>
+                    <div class="panel-body">
+
+                        <input type="hidden" id="ID" value="@ViewBag.Id" />
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Weather:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" value="@Model.Weather" id="idweather" />
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Temperature:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" value="@Model.Temperature" id="idtemperature" />
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Shift:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" value="@Model.Shift" id="idshift" />
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Estimate No:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" value="@Model.Estimate" id="idestimate" />
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Extra Notes:</label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" style="margin: 0px -0.671875px 0px 0px; width: 296px; height: 146px;" id="notes" placeholer="Extra Notes">@Model.Notes</textarea>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Entry Type:</label>
+                            <div class="col-sm-8">
+                                <select id="Identry" readonly="true" data-placeholder="Choose your system..." class="form-control chosen-select" tabindex="2">
+
+                                    @if (Model.EntryType == null)
+                    {
+                    <option selected value="">Daily Entry</option>
+                    <option value="Ad">Adjustment</option>
+                    }
+                    else
+                    {
+                    <option value="">Daily Entry</option>
+                    <option selected value="Ad">Adjustment</option>
+
+                    }
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div style="padding:10px 0px; text-align:right">
+                            <input id="submit" type="button" class="btn btn-xs btn-primary" value="Update Job Data" />
+                        </div>
+                    </div>
+
+                    <div class="well">
+                        @if (Model.DailyEntryItems != null)
+        {
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Item Number</th>
+
+                <th>Location</th>
+                <th>Quantity</th>
+
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DailyEntryItems)
+                    {
+
+                    <tr>
+                        <td>
+                            <div class="text-primary"><strong>@item.Description</strong></div>
+                        </td>
+                        <td>@item.ItemNumber</td>
+
+
+                        <td>@item.Location</td>
+                        <td>@item.Quantity</td>
+                        <td>
+                            <a title="Delete" class="btn btn-xs btn-danger btn-circle glyphicon delete-link  glyphicon-minus" href="@Url.Action("deletedailydata", "Job", new { id = item.Id })"></a>
+                        </td>
+
+
+
+
+                    </tr>
+                    }
+        </tbody>
+    </table>
+        }
+                    </div><!-- table-responsive -->
+
+                    <div class="well">
+                        @if (Model.equipment != null)
+        {
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Equipment Name</th>
+                <th> Number</th>
+
+
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.equipment)
+                    {
+
+                    <tr>
+                        <td>
+                            <div class="text-primary"><strong>@item.Equipment_name</strong></div>
+                        </td>
+                        <td>@item.numberof</td>
+
+
+                        <td>
+                            <a title="Delete" class="btn btn-xs btn-danger btn-circle glyphicon delete-link  glyphicon-minus" href="@Url.Action("delete", "Equipment", new { id = item.id })"></a>
+                        </td>
+
+
+
+
+                    </tr>
+                    }
+        </tbody>
+    </table>
+        }
+                    </div><!-- table-responsive -->
+
+                    <div class="well">
+                        @if (Model.workforce != null)
+        {
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Workforce Name</th>
+                <th>Number</th>
+
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.workforce)
+                    {
+
+                    <tr>
+                        <td>
+                            <div class="text-primary"><strong>@item.Workforcename</strong></div>
+                        </td>
+                        <td>@item.numberof</td>
+
+
+                        <td>
+                            <a title="Delete" class="btn btn-xs btn-danger btn-circle glyphicon delete-link  glyphicon-minus" href="@Url.Action("deleteworkforcedata", "Job", new { id = item.id })"></a>
+                        </td>
+
+
+
+
+                    </tr>
+                    }
+        </tbody>
+    </table>
+        }
+                    </div><!-- table-responsive -->
+
+
+
+                </div>
+
+
+
+
+                <div class="row">
+                    <div class="panel panel-danger">
+
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <div class="well">
+
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Available Items</th>
+                                                <th>Location</th>
+                                                <th>Quantity</th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="col-lg-8">
+                                                    @*//  <input class="col-lg-4" type="text" id="itemnumber" required />*@
+                                                    <div class="form-group">
+
+                                                        @Html.DropDownList("state", new SelectList(ViewBag.oJob, "ID", "Description"), new { @class = "form-control chosen-select", @style = "display:inline" })
+
+
+
+
+
+
+
+                                                    </div>
+                                                </td>
+
+                                                <td class="col-lg-12">
+                                                    <input type="text" class="col-lg-12" id="idlocation" for="inputdefault" placeholder="Location" required />
+
+
+                                                    <span class="error">Location name required</span>
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" id="idquantity" required />
+
+
+                                                    <span class="error">Valid quantity required</span>
+                                                </td>
+
+
+
+                                                <td>
+                                                    <input type="button" class="btn btn-xs btn-black" id="add" value="+Add Entry" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div id="orderItems" class="table-bordered">
+
+                            </div>
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="panel panel-danger">
+
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <div class="well">
+
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Available Equipments</th>
+
+                                                <th>Number</th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="col-lg-10">
+                                                    @*//  <input class="col-lg-4" type="text" id="itemnumber" required />*@
+                                                    <div class="form-group">
+
+                                                        @Html.DropDownList("Equipment", new SelectList(ViewBag.Equipment, "Id", "Equipment_name"), new { @class = "form-control chosen-select", @style = "display:inline" })
+
+
+
+
+
+
+
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" id="idNumber" required />
+
+
+                                                    <span class="error">Valid Number required</span>
+                                                </td>
+
+
+
+                                                <td>
+                                                    <input type="button" class="btn btn-xs btn-black" id="add1" value="+Equipment" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-danger">
+
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <div class="well">
+
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>WorkForce Name</th>
+
+                                                <th>Number</th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="col-lg-10">
+                                                    @*//  <input class="col-lg-4" type="text" id="itemnumber" required />*@
+
+                                                    <input class="col-lg-10" type="text" id="idWname" required />
+
+
+
+
+
+
+
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" id="idNumberW" required />
+
+
+                                                    <span class="error">Valid Number required</span>
+                                                </td>
+
+
+
+                                                <td>
+                                                    <input type="button" class="btn btn-xs btn-black" id="add2" value="+Workforce" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+
+                @section styles{
+                    <link href="~/Content/css/jquery.datatables.css" rel="stylesheet" />
+                    <link href="~/Content/css/dropzone.css" rel="stylesheet" />
+
+                }
+
+                @section Scripts {
+                    @Scripts.Render("~/bundles/jqueryval")
+
+                    <script src="~/Scripts/jquery.datatables.min.js"></script>
+                    <script src="~/Scripts/chosen.jquery.min.js"></script>
+                    <script src="~/Scripts/dropzone.min.js"></script>
+                    <script src="~/Scripts/dropzone.min.js"></script>
+
+                    <script>
+
+                        //$(function () {
+                        //    $('#JobId').change(function () {
+                        //        $('#state').show();
+                        //        $.getJSON('/Job/GetitemByJobId/' + $('#JobId').val(), function (data) {
+                        //            var items = '<option></option>';
+                        //            $.each(data, function (i, state) {
+                        //                items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                        //            });
+                        //            $('#state').html(items);
+                        //            $('#state').show();
+                        //        });
+                        //    });
+                        //});
+                        jQuery(document).ready(function () {
+                            $(window).load(function () {
+                                $(".chosen-select").chosen()
+                            });
+
+
+                            //$('#document-datatable').dataTable(
+                            //{
+                            //    "sPaginationType": "full_numbers",
+                            //    "aoColumnDefs": [
+                            //        { 'bSortable': false, 'aTargets': [-1, -2] }
+                            //    ]
+                            //});
+
+                            // Chosen Select
+
+
+                            // Delete row in a table
+                            jQuery('.delete-row').click(function () {
+                                var c = confirm("Continue delete?");
+                                if (c)
+                                    jQuery(this).closest('tr').fadeOut(function () {
+                                        jQuery(this).remove();
+                                    });
+
+                                return false;
+                            });
+
+                            // Show aciton upon row hover
+                            jQuery('.table-hidaction tbody tr').hover(function () {
+                                jQuery(this).find('.table-action-hide a').animate({ opacity: 1 });
+                            }, function () {
+                                jQuery(this).find('.table-action-hide a').animate({ opacity: 0 });
+                            });
+                            $(function () {
+                                $('#state').change(function () {
+
+                                    $.getJSON('/Job/GetsubcontractorbyitemId/' + $('#state').val(), function (data) {
+                                        $('#idunit').val(data.SubUnit_price);
+                                        var items = '<option></option>';
+                                        $.each(data, function (i, SubContractorId) {
+                                            items += "<option value='" + SubContractorId.Value + "'>" + SubContractorId.Text + "</option>";
+                                        });
+                                        $('#SubContractorId').html(items);
+
+
+                                    });
+                                });
+                            });
+                            function GetClientDAta(id) {
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '/Job/GetpricebyitemId',
+                                    data: "{ 'id': '" + id + "'}",
+                                    contentType: "application/json",
+                                    success: function (data) {
+                                        $("#idunit").val(data.SubUnit_price);
+
+
+                                    }
+
+
+
+                                });
+                            }
+
+                            $('#liDaily').addClass('active');
+
+
+
+
+                            var orderItems = [];
+                            var equipment = [];
+                            var workforce = [];
+
+
+                            $('#add').live('click', function () {
+                                //Check validation of order item
+                                var isValidItem = true;
+                                //if ($('#itemnumber').val().trim() == '') {
+                                //    isValidItem = false;
+                                //    $('#itemnumber').siblings('span.error').css('visibility', 'visible');
+                                //}
+                                //else {
+                                //    $('#itemnumber').siblings('span.error').css('visibility', 'hidden');
+                                //}
+                                if ($('#idlocation').val().trim() == '') {
+                                    isValidItem = false;
+                                    $('#idlocation').siblings('span.error').css('visibility', 'visible');
+                                }
+                                else {
+                                    $('#idlocation').siblings('span.error').css('visibility', 'hidden');
+                                }
+
+
+
+                                if (!($('#idquantity').val().trim() != '' && !isNaN($('#idquantity').val().trim()))) {
+                                    isValidItem = false;
+                                    $('#idquantity').siblings('span.error').css('visibility', 'visible');
+                                }
+                                else {
+                                    $('#idquantity').siblings('span.error').css('visibility', 'hidden');
+                                }
+
+
+                                //Add item to list if valid
+                                if (isValidItem) {
+                                    orderItems.push({
+                                        ItemNumber: $('#state').val(),
+                                        //ItemNumber:$('#itemnumber').val(),
+                                        Quantity: parseInt($('#idquantity').val().trim()),
+                                        Location: $('#idlocation').val()
+
+                                        //UnitType:$('#unittype').val().trim(),
+                                        //Description: $('#itemName').val().trim(),
+                                        //InitialQuantity: parseInt($('#quantity').val().trim()),
+                                        //UnitPrice: parseFloat($('#rate').val().trim()),
+                                        ////TotalAmount: parseInt($('#quantity').val().trim()) * parseFloat($('#rate').val().trim())
+                                    });
+
+                                    //Clear fields
+                                    //$('#itemName').val('').focus();
+                                    $('#idquantity,#idlocation').val('');
+
+                                }
+
+                                var isAllValid = true;
+
+
+                                //Save if valid
+                                if (isAllValid) {
+                                    var data = {
+                                        ID: $('#ID').val(),
+                                        Weather: $('#idweather').val(),
+                                        Temperature: parseFloat($('#idtemperature').val().trim()),
+                                        Shift: $('#idshift').val(),
+                                        Estimate: $('#idestimate').val(),
+                                        Notes: $('#notes').val(),
+
+                                        DailyEntryItems: orderItems
+                                    }
+
+                                 
+                                    $.ajax({
+                                        url: '/Job/EditDailyEntryItems',
+                                        type: "POST",
+                                        data: JSON.stringify(data),
+                                        dataType: "JSON",
+                                        contentType: "application/json",
+                                        success: function (d) {
+                                            //check is successfully save to database
+                                            if (d.status == true) {
+                                                //will send status from server side
+                                                alert('Successfully done.');
+                                                //clear form
+                                                orderItems = [];
+
+                                            }
+                                            else {
+                                                alert('Failed');
+                                            }
+                                        
+                                            window.reload();
+                                        },
+                                        error: function () {
+                                            alert('Error. Please try again.');
+                                            
+                                        }
+                                    });
+                                }
+                                //populate order items
+                                GeneratedItemsTable();
+
+                            })
+                            $('#add1').live('click', function () {
+                                //Check validation of order item
+                                var isValidItem = true;
+                                //if ($('#itemnumber').val().trim() == '') {
+                                //    isValidItem = false;
+                                //    $('#itemnumber').siblings('span.error').css('visibility', 'visible');
+                                //}
+                                //else {
+                                //    $('#itemnumber').siblings('span.error').css('visibility', 'hidden');
+                                //}
+
+
+                                //Add item to list if valid
+                                if (isValidItem) {
+                                    equipment.push(
+                                                       {
+                                                           equipmentid: $('#Equipment').val(),
+                                                           numberof: $('#state').val()
+                                                       });
+
+
+
+
+                                    //UnitType:$('#unittype').val().trim(),
+                                    //Description: $('#itemName').val().trim(),
+                                    //InitialQuantity: parseInt($('#quantity').val().trim()),
+                                    //UnitPrice: parseFloat($('#rate').val().trim()),
+                                    ////TotalAmount: parseInt($('#quantity').val().trim()) * parseFloat($('#rate').val().trim())
+
+
+                                    //Clear fields
+                                    //$('#itemName').val('').focus();
+                                    $('#idNumber').val('');
+
+                                    //Clear fields
+                                    //$('#itemName').val('').focus();
+
+
+                                }
+
+                                var isAllValid = true;
+
+
+                                //Save if valid
+                                if (isAllValid) {
+                                    var data = {
+
+                                        ID: $('#ID').val(),
+
+                                        equipment: equipment
+                                    }
+
+                                
+                                    $.ajax({
+                                        url: '/Job/EditDailyEntryItems',
+                                        type: "POST",
+                                        data: JSON.stringify(data),
+                                        dataType: "JSON",
+                                        contentType: "application/json",
+                                        success: function (d) {
+                                            //check is successfully save to database
+                                            if (d.status == true) {
+                                                //will send status from server side
+                                                alert('Successfully done.');
+                                                //clear form
+                                                equipment = [];
+
+                                            }
+                                            else {
+                                                alert('Failed');
+                                            }
+                                            window.reload();
+                                        },
+                                        error: function () {
+                                            alert('Error. Please try again.');
+                                        }
+                                    });
+                                }
+                                //populate order items
+
+
+                            })
+                            $('#add2').live('click', function () {
+                                //Check validation of order item
+                                var isValidItem = true;
+                                //if ($('#itemnumber').val().trim() == '') {
+                                //    isValidItem = false;
+                                //    $('#itemnumber').siblings('span.error').css('visibility', 'visible');
+                                //}
+                                //else {
+                                //    $('#itemnumber').siblings('span.error').css('visibility', 'hidden');
+                                //}
+
+                                //Add item to list if valid
+                                if (isValidItem) {
+
+                                    workforce.push(
+                                    {
+                                        Workforcename: $('#idWname').val(),
+                                        numberof: $('#idNumberW').val(),
+                                    });
+
+                                    //Clear fields
+                                    //$('#itemName').val('').focus();
+                                    $('#idWname,#idNumber').val('');
+
+
+
+                                    //UnitType:$('#unittype').val().trim(),
+                                    //Description: $('#itemName').val().trim(),
+                                    //InitialQuantity: parseInt($('#quantity').val().trim()),
+                                    //UnitPrice: parseFloat($('#rate').val().trim()),
+                                    ////TotalAmount: parseInt($('#quantity').val().trim()) * parseFloat($('#rate').val().trim())
+
+                                    //Clear fields
+                                    //$('#itemName').val('').focus();
+                                    $('#idWname,#idNumber').val('');
+
+                                }
+
+                                var isAllValid = true;
+
+
+                                //Save if valid
+                                if (isAllValid) {
+                                    var data = {
+                                        ID: $('#ID').val(),
+
+                                        workforce: workforce
+                                    }
+
+                                 
+                                    $.ajax({
+                                        url: '/Job/EditDailyEntryItems',
+                                        type: "POST",
+                                        data: JSON.stringify(data),
+                                        dataType: "JSON",
+                                        contentType: "application/json",
+                                        success: function (d) {
+                                            //check is successfully save to database
+                                            if (d.status == true) {
+                                                //will send status from server side
+                                                alert('Successfully done.');
+                                                //clear form
+                                                equipment = [];
+
+                                            }
+                                            else {
+                                                alert('Failed');
+                                            }
+                                             window.reload();
+                                        },
+                                        error: function () {
+                                            alert('Error. Please try again.');
+                                        }
+                                    });
+                                }
+                                //populate order items
+
+
+                            })
+                            //Save button click function
+                            $('#submit').live('click', function () {
+                                //validation of order
+                                var isAllValid = true;
+
+
+                                //Save if valid
+                                if (isAllValid) {
+                                    var data = {
+                                        ID: $('#ID').val(),
+                                        Weather: $('#idweather').val(),
+                                        Temperature: parseFloat($('#idtemperature').val().trim()),
+                                        Shift: $('#idshift').val(),
+                                        Estimate: $('#idestimate').val(),
+                                        Notes: $('#notes').val(),
+
+
+                                    }
+
+                                    $(this).val('Please wait...');
+
+                                    $.ajax({
+                                        url: '/Job/EditDailyEntryItems',
+                                        type: "POST",
+                                        data: JSON.stringify(data),
+                                        dataType: "JSON",
+                                        contentType: "application/json",
+                                        success: function (d) {
+                                            //check is successfully save to database
+                                            if (d.status == true) {
+                                                //will send status from server side
+                                                alert('Successfully done.');
+                                                //clear form
+
+                                            }
+                                            else {
+                                                alert('Failed');
+                                            }
+                                             window.reload();
+                                        },
+                                        error: function () {
+                                            alert('Error. Please try again.');
+                                        }
+                                    });
+                                }
+
+                            })
+                            //function for show added items in table
+                            function GeneratedItemsTable() {
+                                if (orderItems.length > 0) {
+                                    var $table = $('<table class="table"/>');
+                                    $table.append('<thead><tr><th>Item ID</th><th>Location</th><th>Quantity</th></tr></thead>');
+                                    var $tbody = $('<tbody/>');
+                                    $.each(orderItems, function (i, val) {
+                                        var $row = $('<tr/>');
+                                        $row.append($('<td/>').html(val.ItemNumber));
+                                        $row.append($('<td/>').html(val.Location));
+                                        $row.append($('<td/>').html(val.Quantity));
+
+                                        $tbody.append($row);
+                                    });
+                                    $table.append($tbody);
+                                    $('#orderItems').html($table);
+                                }
+                            }
+
+
+
+
+                        });
+                    </script>
+
+                    <style type="text/css">
+                        .field-validation-error {
+                            color: #f00;
+                        }
+
+                        .field-validation-valid {
+                            display: none;
+                        }
+
+                        .input-validation-error {
+                            border: 1px solid #f00;
+                            background-color: #fee;
+                        }
+
+                        .validation-summary-errors {
+                            font-weight: bold;
+                            color: #f00;
+                        }
+
+                        .validation-summary-valid {
+                            display: none;
+                        }
+                    </style>
+                    <style>
+                        /*Adding some css for looks good*/
+                        span.error {
+                            display: block;
+                            visibility: hidden;
+                            color: red;
+                            font-size: 90%;
+                        }
+
+
+                        /*css for table*/
+                        .container td {
+                            vertical-align: top;
+                        }
+
+                        .tablecontainer table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            border-top: 1px solid #BFAEAE;
+                            border-right: 1px solid #BFAEAE;
+                        }
+
+                        .tablecontainer th {
+                            border-bottom: 2px solid #BFAEAE !important;
+                        }
+
+                        .tablecontainer th, .tablecontainer td {
+                            text-align: left;
+                            border-left: 1px solid #BFAEAE;
+                            padding: 5px;
+                            border-bottom: 1px solid #BFAEAE;
+                        }
+
+                        .ui-widget {
+                            font-size: 12px !important;
+                        }
+                    </style>
+
+
+
+
+                }
+
+

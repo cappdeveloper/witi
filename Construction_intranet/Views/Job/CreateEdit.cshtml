@@ -1,0 +1,410 @@
+﻿@model Construction_intranet.Models.JobMangementViewModel
+
+@{
+    ViewBag.Title = "Create::Edit";
+ 
+    var menu = ViewBag.ActiveMenu;
+}
+
+                <!-- Load the settings form in views -->
+             
+                    <div class="panel">
+                       
+                        <div class="panel-body">
+
+                          
+                            <ul class="nav nav-tabs nav-dark" style="margin-top: 20px;">
+                                <li @if (menu == "general-details-tab") { <text> class="active" </text>      } id="general-details-tab"><a href="#GeneralDetails" data-toggle="tab"><strong>Project Detail</strong></a></li>
+                                <li @if (menu == "contact-tab") { <text> class="active" </text>      } id="contact-tab"><a href="#Contacts" data-toggle="tab"><strong>Project Items</strong></a></li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div class="tab-pane @if (menu == "general-details-tab"){<text> active</text>}" id="GeneralDetails">
+                                    <div class="row">
+                                        @Html.Partial("_ProjectAdd", Model)
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane @if (menu == "contact-tab")
+                             {<text> active</text>}" id="Contacts">
+                                    <div id="contact-container-div" class="row">
+
+                                        @Html.Partial("_ItemsList")
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+              <div id="alert-container" class="col-sm-10" style="margin-top: 2px;">
+</div>
+                <!-- Nav tabs -->
+                <!-- Modal -->
+                <div class="modal fade" id="add-contact-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">Add Items</h4>
+                            </div>
+                            <div class="modal-body">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button id="save-contact" type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                        <!-- modal-content -->
+                    </div>
+                    <!-- modal-dialog -->
+                </div>
+                <!-- modal -->
+                <!-- modal -->
+
+                @section breadcrumbs{
+                    <li><a href="/Job/Index">Jobs</a></li>
+                    <li class="active"><span>@ViewBag.Action</span></li>
+                }
+
+                @section styles{
+                    <link href="~/Content/css/jquery.datatables.css" rel="stylesheet" />
+                    <link href="~/Content/css/dropzone.css" rel="stylesheet" />
+
+                }
+
+                @section Scripts {
+                   @Scripts.Render("~/bundles/jqueryval")
+                <script src="~/Scripts/jquery.validate.min.js"></script>
+                <script src="~/Scripts/jquery.datatables.min.js"></script>
+                <script src="~/Scripts/chosen.jquery.min.js"></script>
+<script src="~/Scripts/chosen.jquery.min.js"></script>
+
+                    <script>
+                        jQuery(document).ready(function () {
+                           
+                            $('#contact-datatable').dataTable(
+                            {
+                                "sPaginationType": "full_numbers",
+                                "aoColumnDefs": [
+                                    { 'bSortable': false, 'aTargets': [-1, -2, -3, -4] }
+                                ]
+                            });
+
+                     
+                            $(".chosen-select").chosen();
+                       
+                            $("#GeneralJobDetailsForm").validate({
+                                rules: {
+                                    Name: {
+                                        required: true
+                                    },
+                                  
+                                    Address: {
+                                        required: true
+                                    },
+                                    Phone: {
+                                        required: true
+
+                                    },
+
+                                    City: {
+                                        required: true
+                                    },
+                                    State: {
+                                        required: true
+                                    },
+                                    Zip: {
+                                        required: true
+                                    },
+                                    Email: {
+                                        required: true,
+                                        email: true
+                                    },
+                                   Fax: {
+                                        required: true,
+                                    }
+
+                                },
+
+                                messages: {
+                                   
+                                    Name: {
+                                        required: "Please enter Job Name"
+                                    },
+                                    Address: {
+                                        required: "Please enter Address"
+                                    },
+                                    Phone: {
+                                        required: "Please enter Phone Number"
+                                    },
+                                    City: {
+                                        required: "Please enter City"
+                                    },
+                                    State: {
+                                        required: "Please enter State"
+                                    },
+
+                                    Zip: {
+                                        required: "Please enter Zip Code"
+                                    },
+                                    Email: {
+                                        required: "Please enter Email address"
+                                    },
+                                   Fax: {
+                                        required: "Please enter Fax"
+                                    }
+                                }
+
+
+
+                            });
+
+                            //$('#document-datatable').dataTable(
+                            //{
+                            //    "sPaginationType": "full_numbers",
+                            //    "aoColumnDefs": [
+                            //        { 'bSortable': false, 'aTargets': [-1, -2] }
+                            //    ]
+                            //});
+
+                            // Chosen Select
+                            // Delete row in a table
+                            jQuery('.delete-row').click(function () {
+                                var c = confirm("Continue delete?");
+                                if (c)
+                                    jQuery(this).closest('tr').fadeOut(function () {
+                                        jQuery(this).remove();
+                                    });
+
+                                return false;
+                            });
+
+                            // Show aciton upon row hover
+                            jQuery('.table-hidaction tbody tr').hover(function () {
+                                jQuery(this).find('.table-action-hide a').animate({ opacity: 1 });
+                            }, function () {
+                                jQuery(this).find('.table-action-hide a').animate({ opacity: 0 });
+                            });
+
+                            $('#save-job-details-button').click(function () {
+                                if ($("#GeneralJobDetailsForm").valid() == true) {
+
+                                    var form = $('#GeneralJobDetailsForm');
+                                    challengerApp.CreateEdit(form, saveCallback);
+                                    $("#GeneralJobDetailsForm").trigger("reset");
+                                }
+                            });
+
+                            var saveCallback = function (data) {
+                                $('#GeneralDetails_ID').val(data.returnId);
+                                switch (data.NotifyType) {
+
+                                    case 0: $("#alert-container").html(data.Html);
+                                        setTimeout(function () {
+                                            $("#alert-container").html('');
+                                        }, 8000)
+                                        break;
+                                }
+                            }
+
+
+
+
+                            $('#general-details-tab').click(function () {
+                                $('#GeneralDetails_Province').css('display', 'inline');
+                                $('#GeneralDetails_APProvince').css('display', 'inline');
+                                $('div.chosen-container').hide();
+
+                            })
+
+                            $('#contact-tab').click(function () {
+                                var vendorId = $('#GeneralDetails_ID').val();
+                                if (vendorId <= 0) { return; }
+                                var url = '@Url.Action("GetJobItem", "Job")';
+                                challengerApp.GetList(url, vendorId, function (result) {
+                                    $('#contact-container-div').html(result.html);
+                                });
+                            })
+
+                            var orderItems = [];
+
+                            $('#add').live('click', function () {
+                                //Check validation of order item
+                                var isValidItem = true;
+                                if ($('#itemName').val().trim() == '') {
+                                    isValidItem = false;
+                                    $('#itemName').siblings('span.error').css('visibility', 'visible');
+                                }
+                                else {
+                                    $('#itemName').siblings('span.error').css('visibility', 'hidden');
+                                }
+
+                                if (!($('#quantity').val().trim() != '' && !isNaN($('#quantity').val().trim()))) {
+                                    isValidItem = false;
+                                    $('#quantity').siblings('span.error').css('visibility', 'visible');
+                                }
+                                else {
+                                    $('#quantity').siblings('span.error').css('visibility', 'hidden');
+                                }
+
+                                if (!($('#rate').val().trim() != '' && !isNaN($('#rate').val().trim()))) {
+                                    isValidItem = false;
+                                    $('#rate').siblings('span.error').css('visibility', 'visible');
+                                }
+                                else {
+                                    $('#rate').siblings('span.error').css('visibility', 'hidden');
+                                }
+                             
+
+
+                                //Add item to list if valid
+                                if (isValidItem) {
+                                    orderItems.push({
+                                        JobID: $('#GeneralDetails_ID').val(),
+                                        ItemNumber: $('#itemnumber').val(),
+                                        UnitType: $('#unittype').val().trim(),
+                                        Description: $('#itemName').val().trim(),
+                                        InitialQuantity: parseInt($('#quantity').val().trim()),
+                                        UnitPrice: parseFloat($('#rate').val().trim()),
+                                        SubContractorQuantity: parseFloat($('#idsQuantity').val().trim()),
+                                            SubContractorId:$('#SubContractorId').val(), 
+                                            SubUnit_price: parseFloat($('#idsunit').val().trim())
+                                        //TotalAmount: parseInt($('#quantity').val().trim()) * parseFloat($('#rate').val().trim())
+                                    });
+
+                                    //Clear fields
+                                    $('#itemName').val('').focus();
+                                    $('#quantity,#rate,#idsQuantity,#idsunit').val('');
+                                   
+
+                                    var isAllValid = true;
+
+
+                                    //Save if valid
+                                    if (isAllValid) {
+                                        var data = {
+
+                                            ItemDetails: orderItems
+                                        }
+
+                                        $(this).val('Please wait...');
+
+                                        $.ajax({
+                                            url: '/Job/SaveProjectItems',
+                                            type: "POST",
+                                            data: JSON.stringify(data),
+                                            dataType: "JSON",
+                                            contentType: "application/json",
+                                            success: function (d) {
+                                                //check is successfully save to database
+                                                if (d.status == true) {
+                                                    //will send status from server side
+                                                    alert('Successfully done.');
+                                                    //clear form
+                                                    orderItems = [];
+
+                                                }
+                                                else {
+                                                    alert('Failed');
+                                                }
+                                                $('#submit').val('Save');
+                                            },
+                                            error: function () {
+                                                alert('Error. Please try again.');
+                                                $('#submit').val('Save');
+                                            }
+                                        });
+                                    }
+
+                                }
+                                //populate order items
+                                GeneratedItemsTable();
+
+                            })
+                            //Save button click function
+                            $('#submit').live('click', function () {
+                                //validation of order
+                              
+
+                            })
+                            //function for show added items in table
+                            function GeneratedItemsTable() {
+                                if (orderItems.length > 0) {
+                                    var $table = $('<table class="table"/>');
+                                    $table.append('<thead><tr><th>Item No.</th><th>Desc</th><th>Unit Type</th><th>Price/Unit</th><th>Quantity</th><th>SubQuantity</th><th>SubPrice</th></tr></thead>');
+                                    var $tbody = $('<tbody/>');
+                                    $.each(orderItems, function (i, val) {
+                                        var $row = $('<tr/>');
+                                        $row.append($('<td/>').html(val.ItemNumber));
+                                        $row.append($('<td/>').html(val.Description));
+                                        $row.append($('<td/>').html(val.UnitType));
+                                        $row.append($('<td/>').html(val.UnitPrice));
+
+                                        $row.append($('<td/>').html(val.InitialQuantity));
+                                        $row.append($('<td/>').html(val.SubContractorQuantity));
+                                        $row.append($('<td/>').html(val.SubUnit_price));
+
+                                        $tbody.append($row);
+                                    });
+                                    $table.append($tbody);
+                                    $('#orderItems').html($table);
+                                }
+                            }
+                            //load form in modal
+                            @*$('#add-contact').live('click', function () {
+                if ('@ViewBag.Action' == 'Create') {
+                    if ($('#GeneralDetails_ID').val() == 0) {
+                        bootbox.alert('<p style="color:red;">Save first the vendor general details before adding contacts.</p>');
+                        return;
+                    }
+                }
+                var JobId = $('#GeneralDetails_ID').val();
+                var url = '/Job/GetItemForm?jobId=' + JobId;
+                $.get(url, function (data) {
+                    $('#add-contact-modal div.modal-body').html(data);
+                    $('#add-contact-modal').modal('show');
+                    $('div.add-contact-modal input[type=text]').val('');
+                    $('div.add-contact-modal #textarea').val('');
+                });
+            })*@
+
+                            $('#contact-edit-button').live('click', function (e) {
+                                e.preventDefault();
+                                var target = $(e.target);
+                                var Id = $(target).attr('data-Id');
+                                var jobid = $('#GeneralDetails_ID').val();
+                                var url = '/Job/GetItemForm?jobid=' + jobid + '&Id=' + Id;
+                                $.get(url, function (data) {
+                                    $('#add-contact-modal div.modal-body').html(data);
+                                    $('#add-contact-modal').modal('show');
+                                });
+                            })
+
+                            $('#save-contact').click(function () {
+                                var form = $('#contact-form');
+                                challengerApp.CreateEdit(form, function (data) {
+                                    switch (data.NotifyType) {
+                                        case 0: $("#contact-notification-container").html(data.Html);
+                                            setTimeout(function () {
+                                                $("#contact-notification-container").html('');
+                                            }, 4000)
+                                            break;
+                                    }
+
+                                    if (data.Success) {
+                                        $('#contact-tab').click();
+                                    }
+                                });
+                            })
+
+                            $('#liJ').addClass('active');
+
+                            //load form in modal
+
+
+
+                        });
+                    </script>
+
+                }

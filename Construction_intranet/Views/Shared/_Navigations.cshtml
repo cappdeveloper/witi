@@ -1,0 +1,44 @@
+﻿
+
+    <div class="slim-scroll" data-height="auto" data-disable-fade-out="true" data-distance="0" data-size="5px" data-color="#333333">
+        <!-- nav -->
+        <nav class="nav-primary hidden-xs">
+            <ul class="nav">
+
+               @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+               {
+                  
+            <li class="nav-parent">
+                    <li id="liC"><a href="@Url.Action("Index","Contractor")"><i class="fa fa-users"></i><span>Contractor</span></a></li>
+                    <li id="liU"><a href="@Url.Action("Index","User")"><i class="fa fa-wrench"></i><span>Users</span></a></li>
+
+
+                    @*<li><a href="@Url.Action("Index","Vehicle")"><i class="fa fa-truck"></i>Vehicles Management</a></li>
+                        <li><a href="@Url.Action("Index","Vendor")"><i class="fa fa-users"></i>Vendors Management</a></li>*@
+               
+            </li>
+            }
+                @if (Request.IsAuthenticated && User.IsInRole("User"))
+            {
+            <li id="liDashboard"><a href="@Url.Action("JobDashboard","Job")"><i class="fa fa-dashboard"></i><span>DashBoard</span></a></li>
+
+
+            <li id="liJ"><a href="@Url.Action("Index", "Job")"><i class="fa fa-file-o"></i><span>Job Management</span></a></li>
+            <li id="liS"><a href="@Url.Action("Index", "SubContractor")"><i class="fa fa-users"></i><span>Contractor Management</span></a></li>
+
+            <li id="liE"><a href="@Url.Action("CreateEdit", "Equipment")"><i class="fa fa-wrench"></i><span>Equipment Management</span></a></li>
+
+
+
+
+            @*<li><a href="@Url.Action("Index","Vehicle")"><i class="fa fa-truck"></i>Vehicles Management</a></li>
+                <li><a href="@Url.Action("Index","Vendor")"><i class="fa fa-users"></i>Vendors Management</a></li>*@
+
+            }
+
+
+            </ul>
+        </nav>
+    </div>
+
+

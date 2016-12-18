@@ -1,0 +1,52 @@
+﻿@model Construction_intranet.Models.ItemsModel
+
+<div class="row">
+    <div id="contact-notification-container">
+
+    </div>
+
+    @using (Html.BeginForm("CreateEditItem", "Job", FormMethod.Post, new {Id="contact-form", @class = "form-horizontal" }))
+    {
+        @Html.HiddenFor(model => model.ID)
+        @Html.HiddenFor(model => model.JobID)
+        <p>
+            @Html.Partial("_InlineAlerts")
+            @Html.ValidationSummary(true)
+            @Html.AntiForgeryToken()
+        </p>
+            
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, new { @class = "col-sm-3 control-label" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
+                 </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.UnitType, new { @class = "col-sm-3 control-label" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => model.UnitType, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UnitPrice, new { @class = "col-sm-3 control-label" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => model.UnitPrice, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.InitialQuantity, new { @class = "col-sm-3 control-label" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => model.InitialQuantity, new { @class = "form-control" })
+                </div>
+            </div>
+
+          
+      
+        </div>
+       
+    }
+</div>
+

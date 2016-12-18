@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>@ViewBag.Title - Construction Pro Application</title>
+
+
+    <link href="~/Content/css/style.default.css" rel="stylesheet" />
+   <link href="~/Scripts/bootstrap-multiselect.css" rel="stylesheet" />
+
+    <link href="~/Scripts/app.css" rel="stylesheet" />
+    <link href="~/Scripts/font.css" rel="stylesheet" />
+    <link href="~/Scripts/typeahead.css" rel="stylesheet" />
+    @RenderSection("styles",false)
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
+    </div>
+
+   
+
+        <div class="leftpanel">
+
+            <div class="logopanel">
+                Construction Pro
+            </div>
+          
+            <!-- logopanel -->
+
+       
+                    <!--NAVIGATIONS -->
+                    @Html.Partial("_Navigations")
+                    <!-- -->
+                    @*<div class="infosummary">
+                        <h5 class="sidebartitle">Information Summary</h5>
+                        <ul>
+                            <li>
+                                <div class="datainfo">
+                                    <span class="text-muted">Total Customers</span>
+                                    <h4>158</h4>
+                                </div>
+                                <div id="sidebar-chart" class="chart"></div>
+                            </li>
+                            <li>
+                                <div class="datainfo">
+                                    <span class="text-muted"></span>
+                                    <h4>561</h4>
+                                </div>
+                                <div id="sidebar-chart2" class="chart"></div>
+                            </li>
+                            <li>
+                                <div class="datainfo">
+                                    <span class="text-muted"></span>
+                                    <h4>$45,458</h4>
+                                </div>
+                                <div id="sidebar-chart3" class="chart"></div>
+                            </li>
+                            <li>
+                                <div class="datainfo">
+                                    <span class="text-muted">Year to Date Earnings</span>
+                                    <h4>$435,458</h4>
+                                </div>
+                                <div id="sidebar-chart4" class="chart"></div>
+                            </li>
+                        </ul>
+                    </div>*@
+                    <!-- infosummary -->
+
+      
+            </div>
+            <!-- leftpanelinner -->
+        </div>
+        <!-- leftpanel -->
+
+        <div class="mainpanel">
+
+            <div class="headerbar">
+
+                <a class="menutoggle"><i class="fa fa-bars"></i></a>
+
+                <form class="searchform" action="" method="post">
+                    <input type="text" class="form-control" name="keyword" placeholder="Quick Project Search..." />
+                </form>
+
+                <div class="header-right">
+                    @Html.Partial("_LoginPartial")
+                </div>
+                <!-- header-right -->
+
+            </div>
+            <!-- headerbar -->
+
+            <div class="pageheader">
+                <h2><i class="fa fa-home"></i>Dashboard</h2>
+                <div class="breadcrumb-wrapper">
+                    <span class="label">You are here:</span>
+                    <ol class="breadcrumb">
+                        @RenderSection("breadcrumbs",false)
+                    </ol>
+                </div>
+            </div>
+
+            <div class="contentpanel">
+                <!-- content goes here... -->
+                @RenderSection("featured", false)
+                @RenderBody()
+
+
+            </div>
+
+        </div>
+        <!-- mainpanel -->
+        <div style="color: white; text-align: right; padding: 20px;">
+            Developed by <a href="#" style="color: white;">Cappdeveloper.</a>
+        </div>
+    </section>
+
+
+
+    <script src="/scripts/jquery-1.10.2.min.js"></script>
+    <script src="/scripts/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/scripts/bootstrap.min.js"></script>
+    <script src="/scripts/modernizr.min.js"></script>
+    <script src="/scripts/jquery.sparkline.min.js"></script>
+    <script src="/scripts/toggles.min.js"></script>
+    <script src="/scripts/retina.min.js"></script>
+    <script src="/scripts/jquery.cookies.js"></script>
+
+    <script src="~/Scripts/jquery.validationEngine-en.js"></script>
+    <script src="~/Scripts/jquery.validationEngine.js"></script>
+
+
+    <script src="/scripts/flot/flot.min.js"></script>
+    <script src="/scripts/flot/flot.resize.min.js"></script>
+
+    <script src="/scripts/custom.js"></script>
+    <script src="~/Scripts/plugins/bootbox.min.js"></script>
+    <script src="~/Scripts/Challenger/crud-operation.js"></script>
+    
+    <script src="~/Scripts/plugins/jquery.blockUI.js"></script>
+    <script src="~/Scripts/Challenger/call_back_functions.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+          
+            // change message border 
+            $.blockUI.defaults.css.border = '0px';
+            //$.blockUI.defaults.css.backgroundColor = 'rgb(0,0,0)';
+        })
+    </script>
+    @RenderSection("Scripts", false)
+
+</body>
+</html>
+
+
+

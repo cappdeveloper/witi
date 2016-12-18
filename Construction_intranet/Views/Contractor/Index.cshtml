@@ -1,0 +1,143 @@
+﻿@model List<Construction_intranet.Models.ContractorModel>
+
+@{
+    ViewBag.Title = "Contractor";
+
+}
+
+
+
+    <div class="panel">
+        <header class="panel-heading">
+            Contractors
+            <a href="@Url.Action("CreateEdit", "Contractor")" class="btn btn-xs btn-dark pull-right">[+] Create New</a>
+
+        </header>
+
+
+
+
+
+        <div class="panel-body">
+            @Html.Partial("_InlineAlerts")
+
+            <br />
+            <div class="table-responsive">
+                <table class="table table-bordered table-condensed m-b-none text-sm" id="challenger-datatable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th>Added on</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Count() > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                                <tr>
+                                    <td>@Html.DisplayFor(model => item.FirstName)</td>
+                                    <td>@Html.DisplayFor(model => item.Email)</td>
+                                    <td>@Html.DisplayFor(model => item.Phone)</td>
+                                    @if (item.Status == "Active")
+{
+                                        <td><p class="label label-success">@Html.DisplayFor(model => item.Status)</p></td>
+}
+else
+{
+                                        <td><p class="label label-danger">@Html.DisplayFor(model => item.Status)</p></td>
+}
+
+                                    <td>@Html.DisplayFor(model => item.CreatedDate)</td>
+                                    <td class="text-left  fit-content">
+                                        <a title="Edit" class="btn btn-primary btn-circle glyphicon glyphicon-edit" href="@Url.Action("CreateEdit", "Contractor", new { id = item.Id })"></a>
+                                        @if(item.Status=="Active")
+                                  {
+                                            <a title="Inactive" id="@item.Id" class="btn btn-success btn-circle glyphicon  glyphicon-off active-link" href="@Url.Action("InActive", "Contractor")"></a>
+                                  }
+                                  else
+                                  {
+                                            <a title="Active" id="@item.Id" class="btn btn-danger btn-circle glyphicon glyphicon-off active-link" href="@Url.Action("Active", "Contractor")"></a>
+
+                                  }
+
+                                    </td>
+                                </tr>
+                        }
+                    }
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- table-responsive -->
+        </div>
+    </div>
+
+@section styles{
+    <link href="~/Content/css/jquery.datatables.css" rel="stylesheet" />
+}
+
+@section breadcrumbs{
+    <li class="active"><span>Contractor</span></li>
+}
+
+@section scripts{
+    <script src="~/Scripts/jquery.datatables.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+
+
+            $('#challenger-datatable').dataTable(
+            {
+                "sPaginationType": "full_numbers",
+                "aoColumnDefs": [
+                    { 'bSortable': false, 'aTargets': [-1, -2, -3,-4,-5] }
+                ]
+            });
+
+
+    $('#liC').addClass('active');
+
+
+            // Chosen Select
+            jQuery("select").chosen({
+                'min-width': '100px',
+                'white-space': 'nowrap',
+                disable_search_threshold: 10
+            });
+            $('.table .active-link').live('click', function (e) {
+                e.preventDefault();
+                challengerApp.ActiveData(e);
+                return false;
+            });
+
+            // Delete row in a table
+            jQuery('.delete-row').click(function () {
+                var c = confirm("Continue delete?");
+                if (c)
+                    jQuery(this).closest('tr').fadeOut(function () {
+                        jQuery(this).remove();
+                    });
+
+                return false;
+            });
+
+            // Show aciton upon row hover
+            jQuery('.table-hidaction tbody tr').hover(function () {
+                jQuery(this).find('.table-action-hide a').animate({ opacity: 1 });
+            }, function () {
+                jQuery(this).find('.table-action-hide a').animate({ opacity: 0 });
+            });
+
+
+        });
+    </script>
+}
+
+

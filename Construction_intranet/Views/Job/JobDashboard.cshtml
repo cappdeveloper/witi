@@ -1,0 +1,191 @@
+﻿@model List<Construction_intranet.Models.JobModel>
+
+@{
+    ViewBag.Title = "Jobs";
+
+}
+
+
+
+    
+  
+
+
+<div class="panel">
+    
+    <div class="panel-body">
+ 
+        <div class="table-responsive">
+@if (Model != null && Model.Count() > 0)
+{
+   <p>Active Jobs(@ViewBag.active)</p>
+    <table class="table table-bordered table-condensed m-b-none text-sm" id="challenger-datatable">
+    <thead>
+    <tr>
+    <th>Job Name</th>
+    <th>Progress</th>
+        <th>Current Estimate</th>
+ <th>Current Quantity</th>
+    <th>Total Quantity</th>
+        <th>Paid</th>
+        <th>Change Order</th>
+        <th>Daily Entry</th>
+        <th>Complete</th>
+                        @*<th>Contractor</th>*@
+                     
+                    </tr>
+                </thead>
+    <tbody>
+                   @foreach (var item in Model)
+                        {
+    <tr>
+    <td><a href="@Request.ApplicationPath.TrimEnd('/')/Job/ItemResult/@item.ID"><span class="label label-success">@item.Name</span></a> </td>
+    <td> (@(Convert.ToInt32((item.Total * 100) / item.FullTotal))%) <div class="progress progress-sm">
+            <div style="width: @(Convert.ToInt32((item.Total * 100) / item.FullTotal))%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-warning">    </div>
+        </div>
+
+            
+  
+
+               </td>
+        <td class="btn-success">@item.TotalEstimate</td>
+<td class="btn-primary">@item.Total </td>
+    <td class="btn-xs btn-warning">@item.FullTotal </td>
+        <td class="btn-danger">@item.paidItem </td>
+         <td><a class="btn btn-xs btn-primary" href="@Url.Action("ChangeOrder", "Job", new { id = item.ID })">Change Order</a> </td>
+         <td><a class="btn btn-xs btn-black" href="@Url.Action("IndexDailyEntry", "Job", new { id = item.ID })">  Daily Entry</a></td> <td><a title="Close Job" id="@item.ID" class="btn btn-xs btn-danger btn-circle glyphicon glyphicon-off active-link" href="@Url.Action("InActive", "Job")"></a>                     
+                   </td>
+                            
+                               
+                              </tr>
+                          
+                        }
+                 
+                </tbody>
+            </table>}
+else
+{
+    <div>No Info Found</div>}
+        </div>
+
+        <!-- table-responsive -->
+
+
+    </div>
+</div>
+<div class="panel">
+    <div class="panel-body">
+      
+    
+                  
+        <div class="table-responsive">
+            @if (ViewBag.Inactive != null)
+            {
+                <p>
+                    Inactive Jobs(@ViewBag.inactive1)
+                </p>
+                <table class="table table-bordered table-condensed m-b-none text-sm" id="challenger-datatable">
+                <thead>
+                <tr>
+                <th>Job Name</th>
+                <th>Progress</th>
+                    <th>Estimate</th>
+ <th>Current</th>
+                <th>Total</th>
+                    <th>Action</th>
+                            @*<th>Contractor</th>*@
+                        </tr>
+                    </thead>
+                <tbody>
+                        @foreach (var item in ViewBag.Inactive)
+                        {
+                <tr>
+                <td><span class="label label-primary">@item.Name </span></td>
+                <td>Percentage (@(Convert.ToInt32((item.Total * 100) / item.FullTotal))%)
+                    <div class="progress progress-sm">
+    <div style="width: @(Convert.ToInt32((item.Total * 100) / item.FullTotal))%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-danger">
+    </div>
+    
+</div>
+
+</td>
+                    <td class="btn-success">@item.TotalEstimate</td>
+                    <td class="btn-primary">@item.Total </td>
+                    <td class="btn-xs btn-warning">@item.FullTotal </td>
+                           <td> <a title="Open Job" id="@item.ID" class="btn btn-xs btn-success btn-circle glyphicon  glyphicon-off active-link" href="@Url.Action("Active", "Job")"></a>
+                        </td>           
+                           </tr>
+                        }
+                    </tbody>
+                </table>
+         
+         }
+
+            else
+            {
+    <div > No Info Found</div >
+     }
+            
+       <!-- table-responsive -->
+    </div> 
+</div>
+    </div>
+@section styles{
+    <link href="~/Content/css/jquery.datatables.css" rel="stylesheet" />
+}
+
+@section breadcrumbs{
+<li><a href="/Job/JobDashboard">Home</a></li>
+
+    <li class="active"><span>Dashboard</span></li>
+}
+
+@section scripts{
+    <script src="~/Scripts/jquery.datatables.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+
+            $('.table .active-link').live('click', function (e) {
+                e.preventDefault();
+                challengerApp.ActiveData(e);
+                return false;
+            });
+
+         
+
+            // Chosen Select
+            jQuery("select").chosen({
+                'min-width': '100px',
+                'white-space': 'nowrap',
+                disable_search_threshold: 10
+            });
+           
+
+            // Delete row in a table
+            jQuery('.delete-row').click(function () {
+                var c = confirm("Continue delete?");
+                if (c)
+                    jQuery(this).closest('tr').fadeOut(function () {
+                        jQuery(this).remove();
+                    });
+
+                return false;
+            });
+
+            $('#liDashboard').addClass('active');
+
+            // Show aciton upon row hover
+            jQuery('.table-hidaction tbody tr').hover(function () {
+                jQuery(this).find('.table-action-hide a').animate({ opacity: 1 });
+            }, function () {
+                jQuery(this).find('.table-action-hide a').animate({ opacity: 0 });
+            });
+
+
+        });
+    </script>
+}
+
+

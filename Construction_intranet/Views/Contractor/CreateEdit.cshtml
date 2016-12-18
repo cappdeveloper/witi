@@ -1,0 +1,286 @@
+﻿@model Construction_intranet.Models.ContractorModel
+
+@{
+    ViewBag.Title = "Create::Edit";
+
+    
+}
+
+ 
+
+    <div id="alert-container" class="col-sm-12" style="margin-top: 5px;">
+    </div>
+    <div class="panel">
+
+        <div class="panel-heading">
+            <div class="panel-btns">
+               
+            </div>
+            <h3 class="panel-title">Contractor Form</h3>
+            <p></p>
+        </div>
+        <div class="panel-body">
+
+
+    @using (Html.BeginForm("CreateEdit", "Contractor", FormMethod.Post, new { Id = "GeneralDetailsForm", @class = "form-horizontal" }))
+            {
+
+
+        <p>@Html.AntiForgeryToken()
+         </p>
+
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">First Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="FirstName" placeholder="Enter First Name" value="@Model.FirstName" class="form-control" required />
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Last Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="LastName" placeholder="Enter Last Name" value="@Model.LastName" class="form-control" required />
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Email Address</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="Email" placeholder="Enter Email" value="@Model.Email" class="form-control" required />
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Phone</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="Phone" placeholder="Enter Phone Number" value="@Model.Phone" class="form-control" required />
+
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Notes</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="Notes" placeholder="Any Note" value="@Model.Notes" class="form-control" required />
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Address</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="Address" placeholder="Enter Address" value="@Model.Address" class="form-control" required />
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">City</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="City" placeholder="Enter City" value="@Model.City" class="form-control" required />
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">State</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="State" placeholder="Enter State" value="@Model.State" class="form-control" required />
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Zip</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="Zip" placeholder="Enter Zip" value="@Model.Zip" class="form-control" required />
+
+                        </div>
+                    </div>
+                 
+                
+                </div>
+              
+
+
+
+
+    }
+             
+        <div class="row">
+            <div class="col-sm-9 col-sm-offset-2" style="margin-top: 10px; padding-right: 30px;">
+                <button id="save-general-details-button" class="btn btn-primary pull-right">Save Changes</button>
+
+            </div>
+        </div>
+  
+</div>
+
+
+</div>
+
+
+
+@section breadcrumbs{
+    <li><a href="/Contractor/Index">Contractor</a></li>
+    <li class="active"><span>@ViewBag.Action</span></li>
+}
+
+@section styles{
+    <link href="~/Content/css/jquery.datatables.css" rel="stylesheet" />
+    <link href="~/Content/css/dropzone.css" rel="stylesheet" />
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.datatables.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script src="~/Scripts/dropzone.min.js"></script>
+    <script src="~/Scripts/dropzone.min.js"></script>
+    <script>
+        $('#liC').addClass('active');
+
+    </script>
+    <script>
+        jQuery(document).ready(function () {
+            $('#liC').addClass('active');
+            //$('#contact-datatable').dataTable(
+            //{
+            //    "sPaginationType": "full_numbers",
+            //    "aoColumnDefs": [
+            //        { 'bSortable': false, 'aTargets': [-1, -2, -3, -4] }
+            //    ]
+            //});
+
+            //$('#document-datatable').dataTable(
+            //{
+            //    "sPaginationType": "full_numbers",
+            //    "aoColumnDefs": [
+            //        { 'bSortable': false, 'aTargets': [-1, -2] }
+            //    ]
+            //});
+
+            // Chosen Select
+            jQuery("select").chosen({
+                'min-width': '100px',
+                'white-space': 'nowrap',
+                disable_search_threshold: 10
+            });
+          
+
+            $("#GeneralDetailsForm").validate({
+                rules: {
+                    FirstName: {
+                        required: true
+                    },
+                    LastName: {
+                        required: true
+                    },
+                    Address: {
+                        required: true
+                    },
+                    Phone: {
+                        required: true
+                      
+                    },
+
+                    City: {
+                        required: true
+                    },
+                    State: {
+                        required: true
+                    },
+                    Zip: {
+                        required: true
+                    },
+                    Email: {
+                        required: true,
+                        email: true
+                    },
+                    Notes: {
+                        required: true,
+                    }
+
+                },
+
+                messages: {
+                    FirstName: {
+                        required: "Please enter First Name"
+                    },
+                    LastName: {
+                        required: "Please enter Last Name"
+                    },
+                    Address: {
+                        required: "Please enter Address"
+                    },
+                    Phone: {
+                        required: "Please enter Phone Number"
+                    },
+                    City: {
+                        required: "Please enter City"
+                    },
+                    State: {
+                        required: "Please enter State"
+                    },
+
+                    Zip: {
+                        required: "Please enter Zip Code"
+                    },
+                 Email: {
+                        required: "Please enter Email address"
+                    },
+                    Notes: {
+                        required: "Please enter State"
+                    }
+                }
+
+
+
+            });
+
+         
+            // Show aciton upon row hover
+            jQuery('.table-hidaction tbody tr').hover(function () {
+                jQuery(this).find('.table-action-hide a').animate({ opacity: 1 });
+            }, function () {
+                jQuery(this).find('.table-action-hide a').animate({ opacity: 0 });
+            });
+
+            $('#save-general-details-button').click(function () {
+                if ($("#GeneralDetailsForm").valid() == true) {
+                    var form = $('#GeneralDetailsForm');
+                    challengerApp.CreateEdit(form, saveCallback);
+                    $("#GeneralDetailsForm").trigger("reset");
+                }
+            });
+
+            var saveCallback = function (data) {
+                switch (data.NotifyType) {
+
+                    case 0: $("#alert-container").html(data.Html);
+                        setTimeout(function () {
+                            $("#alert-container").html('');
+                        }, 8000)
+                        break;
+                }
+            }
+
+       
+
+
+            $('#general-details-tab').click(function () {
+                $('#GeneralDetails_Province').css('display', 'inline');
+                $('#GeneralDetails_APProvince').css('display', 'inline');
+                $('div.chosen-container').hide();
+
+            })
+
+         
+        });
+    </script>
+
+}

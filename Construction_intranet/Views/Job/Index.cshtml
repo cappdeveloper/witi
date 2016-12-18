@@ -1,0 +1,133 @@
+﻿@model List<Construction_intranet.Models.JobModel>
+
+
+
+                <!-- Load the settings form in views -->
+                     <div class="panel">
+
+                         <header class="panel-heading">
+                           Jobs
+                             <a href="@Url.Action("CreateEdit", "Job")" class="btn btn-xs btn-dark pull-right">[+] Create New Job</a>
+
+                         </header>
+                        
+                        <div class="panel-body">
+                            @Html.Partial("_InlineAlerts")
+
+                            <br />
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-condensed m-b-none text-sm" id="document-datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>Project</th>
+                                            <th>Address</th>
+                                            @*<th>Contractor</th>*@
+                                            <th>Status</th>
+                                            <th>Added on</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null && Model.Count() > 0)
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td><span><a href="@Request.ApplicationPath.TrimEnd('/')/Job/Details/@item.ID">@item.Name</a></span></td>
+                                                    <td>@Html.DisplayFor(model => item.Address)</td>
+                                                    @*<td>@Html.DisplayFor(model => item.ContractorName)</td>*@
+                                                    @if (item.status == "Active")
+                                                    {
+                                                        <td><p class="label label-success">@Html.DisplayFor(model => item.status)</p></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td><p class="label label-danger">@Html.DisplayFor(model => item.status)</p></td>
+                                                    }
+
+                                                    <td>@Html.DisplayFor(model => item.Created_Date)</td>
+                                                    <td class="text-left  fit-content">
+                                                        <a title="Edit" class="btn btn-primary btn-xs  btn-circle glyphicon glyphicon-edit" href="@Url.Action("CreateEdit", "Job", new { id = item.ID })"></a>
+                                                        @if (item.status == "Active")
+                                                        {
+                                                            <a title="Inactive" id="@item.ID" class="btn btn-success btn-xs btn-circle glyphicon  glyphicon-off active-link" href="@Url.Action("InActive", "Job")"></a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a title="Active" id="@item.ID" class="btn btn-danger btn-xs btn-circle glyphicon glyphicon-off active-link" href="@Url.Action("Active", "Job")"></a>
+
+                                                        }
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- table-responsive -->
+                        </div>
+                    </div>
+            
+             
+                    @section styles{
+                        <link href="~/Content/css/jquery.datatables.css" rel="stylesheet" />
+                    }
+
+                    @section breadcrumbs{
+<li><a href="/Job/JobDashboard">Home</a></li>
+
+                        <li class="active"><span>Jobs</span></li>
+                    }
+
+                    @section scripts{
+                        <script src="~/Scripts/jquery.datatables.min.js"></script>
+                        <script src="~/Scripts/chosen.jquery.min.js"></script>
+
+                        <script>
+                            jQuery(document).ready(function () {
+
+                                $('#document-datatable').dataTable(
+                                {
+                                    "sPaginationType": "full_numbers",
+                                    "aoColumnDefs": [
+                                        { 'bSortable': false, 'aTargets': [-1, -2] }
+                                    ]
+                                });
+
+
+                                // Chosen Select
+                             
+                                $('.table .active-link').live('click', function (e) {
+                                    e.preventDefault();
+                                    challengerApp.ActiveData(e);
+                                    return false;
+                                });
+
+                                // Delete row in a table
+                                jQuery('.delete-row').click(function () {
+                                    var c = confirm("Continue delete?");
+                                    if (c)
+                                        jQuery(this).closest('tr').fadeOut(function () {
+                                            jQuery(this).remove();
+                                        });
+
+                                    return false;
+                                });
+
+                                $('#liJ').addClass('active');
+
+                                // Show aciton upon row hover
+                                jQuery('.table-hidaction tbody tr').hover(function () {
+                                    jQuery(this).find('.table-action-hide a').animate({ opacity: 1 });
+                                }, function () {
+                                    jQuery(this).find('.table-action-hide a').animate({ opacity: 0 });
+                                });
+
+
+                            });
+                        </script>
+                    }
+
+

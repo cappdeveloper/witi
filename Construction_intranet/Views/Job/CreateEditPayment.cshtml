@@ -1,0 +1,253 @@
+﻿
+<section class="hbox stretch">
+
+
+    <aside class="aside-md bg-white b-r scrollable" id="subNav">
+        <div class="wrapper b-b header">Payment Screen</div>
+
+
+
+        <ul class="nav">
+
+            <li class="b-b b-light ">
+                <a href="/Job/DailyEntry/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-file-o"></i>+ Daily Entry/Adjustment</a>
+            </li>
+            <li class="b-b b-light ">
+                <a href="/Job/ChangeOrder/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-clock-o"></i>Add a Change Order</a>
+            </li>
+
+            <li class="b-b b-light ">
+                <a href="/Job/IndexDailyEntry/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-map-marker"></i>Daily Lookup</a>
+            </li>
+
+
+            <li class="b-b b-light">
+                <a href="/Job/ItemResult/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-pencil"></i>Item Lookup</a>
+            </li>
+            <li class="b-b b-light bg-light dker text-white">
+                <a href="/Job/CreateEditPayment/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>Create Payment</a>
+            </li>
+            <li class="b-b b-light">
+                <a href="/Job/IndexPayment/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>All Payments</a>
+            </li>
+            <li class="b-b b-light">
+                <a href="/Job/InvoiceScreen/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>Invoice</a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <aside>
+        <section class="vbox">
+           
+
+
+            <section class="scrollable wrapper">
+                <!-- Load the settings form in views -->
+                <div class="row">
+
+
+
+
+
+
+
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h6 class="panel-title"><i class="icon-spinner7 spin"></i>Payment Detail</h6>
+                        </div>
+                        <div class="panel-body">
+
+                            <input type="hidden" id="JobId" value="@ViewBag.jobid" />
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">ClientName:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="idclient" required />
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Select Item:</label>
+                                <div class="col-sm-8">
+                                    @Html.DropDownList("Itemid", new SelectList(ViewBag.Items, "ID", "Description"),"Select Item for Payment", new { @class = "form-control chosen-select" })
+
+
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Units:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="idunits" required/>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Unit Price:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="idprice" required />
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                 <div class="col-sm-8">
+                                  
+                                     <input type="submit" id="submit" value="Create Payment" class="btn btn-block" />
+
+                                </div>
+                            </div>
+                        
+                         </div>
+
+
+
+
+
+                    </div>
+
+
+
+
+        
+                </div>
+            </section>
+        </section>
+    </aside>
+</section>
+
+
+@section styles{
+    <link href="~/Content/css/jquery.datatables.css" rel="stylesheet" />
+    <link href="~/Content/css/dropzone.css" rel="stylesheet" />
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/jquery.datatables.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script src="~/Scripts/dropzone.min.js"></script>
+    <script src="~/Scripts/dropzone.min.js"></script>
+
+    <script>
+        $("#Itemid").change(function () {
+            GetClientDAta($(this).val());
+        });
+        function GetClientDAta(id) {
+            $.ajax({
+                type: 'POST',
+                url: '/Job/GetpricebyitemIdG',
+                data: "{ 'id': '" + id + "'}",
+                contentType: "application/json",
+                success: function (data) {
+                    $("#idprice").val(data.UnitPrice);
+
+
+                }
+
+
+
+            });
+        }
+                            //$(function () {
+                            //    $('#JobId').change(function () {
+                            //        $('#state').show();
+                            //        $.getJSON('/Job/GetitemByJobId/' + $('#JobId').val(), function (data) {
+                            //            var items = '<option></option>';
+                            //            $.each(data, function (i, state) {
+                            //                items += "<option value='" + state.Value + "'>" + state.Text + "</option>";
+                            //            });
+                            //            $('#state').html(items);
+                            //            $('#state').show();
+                            //        });
+                            //    });
+                            //});
+                            jQuery(document).ready(function () {
+                                $(window).load(function () {
+                                    $(".chosen-select").chosen()
+                                });
+
+                                $('#submit').live('click', function () {
+                                    //validation of order
+                                    var isAllValid = true;
+                                    if ($('#idclients').val() == '') {
+                                        isAllValid = false;
+                                    }
+                                 
+                                    //Save if valid
+                                    if (isAllValid) {
+                                        var data = {
+                                 
+                                   
+                                            Jobid: $('#JobId').val(),
+                                    Itemid: $('#Itemid').val(),
+                                    UnitPrice: parseFloat($('#idprice').val().trim()),
+                                    units: $('#idunits').val(),
+                                    Clientname: $('#idclient').val(),
+                                         
+
+                                        }
+
+                                    
+                                        $.ajax({
+                                            url: '/Job/Savepayment',
+                                            type: "POST",
+                                            data: JSON.stringify(data),
+                                            dataType: "JSON",
+                                            contentType: "application/json",
+                                            success: function (d) {
+                                                //check is successfully save to database
+                                                if (d.status == true) {
+                                                    //will send status from server side
+                                                    alert('Successfully done.');
+                                                    //clear form
+                                                    $('#idclient,#idunits,#idprice').val('');
+
+
+                                                }
+                                                else {
+                                                    alert('Failed');
+                                                }
+                                              },
+                                            error: function () {
+                                                alert('Error. Please try again.');
+                                             }
+                                        });
+                                    }
+
+                                })
+
+
+                               
+                                //$('#document-datatable').dataTable(
+                                //{
+                                //    "sPaginationType": "full_numbers",
+                                //    "aoColumnDefs": [
+                                //        { 'bSortable': false, 'aTargets': [-1, -2] }
+                                //    ]
+                                //});
+
+                                // Chosen Select
+
+
+                             
+
+                            });
+
+
+
+
+
+    </script>
+
+ 
+
+
+}
+
+

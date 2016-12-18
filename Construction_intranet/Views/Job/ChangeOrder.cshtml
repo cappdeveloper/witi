@@ -1,0 +1,573 @@
+﻿
+@model Construction_intranet.Models.JobModel
+
+
+<section class="hbox stretch">
+
+
+    <aside class="aside-md bg-white b-r scrollable" id="subNav">
+        <div class="wrapper b-b header">  Change Order</div>
+
+
+        <ul class="nav">
+
+
+            <li class="b-b b-light ">
+                <a href="/Job/DailyEntry/@ViewBag.value1"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-file-o"></i>+ Daily Entry/Adjustment</a>
+            </li>
+            <li class="b-b b-light bg-light dker text-white">
+                <a href="/Job/ChangeOrder/@ViewBag.value1"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-clock-o"></i>Add a Change Order</a>
+            </li>
+
+            <li class="b-b b-light ">
+                <a href="/Job/IndexDailyEntry/@ViewBag.value1"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-map-marker"></i>Daily Lookup</a>
+            </li>
+
+
+            <li class="b-b b-light">
+                <a href="/Job/ItemResult/@ViewBag.value1"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-pencil"></i>Item Lookup</a>
+            </li>
+            <li class="b-b b-light">
+                <a href="/Job/CreateEditPayment/@ViewBag.value1"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>Create Payment</a>
+            </li>
+            <li class="b-b b-light">
+                <a href="/Job/IndexPayment/@ViewBag.value1"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>All Payments</a>
+            </li>
+            <li class="b-b b-light">
+                <a href="/Job/InvoiceScreen/@ViewBag.value1"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>Invoice</a>
+            </li>
+
+
+
+
+        </ul>
+
+    </aside>
+
+    <aside>
+        <section class="vbox">
+         
+
+            <section class="scrollable wrapper">
+
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a class="btn btn-xs btn-dark">General Contractor Change Order</a>
+
+
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <div class="well">
+
+                                    <table class="table table-bordered table-condensed m-b-none text-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Select Item for Order Change</th>
+                                                <th>Quantity</th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="col-lg-8">
+                                                    @*//  <input class="col-lg-4" type="text" id="itemnumber" required />*@
+                                                    <div class="form-group">
+
+                                                        @Html.DropDownList("Itemid", new SelectList(ViewBag.changeorder, "ID", "Description"), new { @class = "form-control chosen-select", @style = "display:inline" })
+
+                                                        <input type="hidden" id="idJobData" value="@ViewBag.value" />
+
+                                                        <input type="hidden" id="idJobData2" value="@ViewBag.value1" />
+
+                                                    </div>
+                                                </td>
+
+
+                                                <td>
+                                                    <input type="text" id="idquantity" required />
+
+
+                                                    <span class="error">Valid quantity required</span>
+                                                </td>
+
+
+
+                                                <td>
+                                                    <input type="button" class="btn btn-xs btn-black" id="add" value="+Change Order" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div id="orderItems" class="table-bordered">
+
+                            </div>
+
+
+
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="panel panel-default">
+                          
+                            <a class="btn btn-xs btn-dark">SubContractor Change Order</a>
+
+                     
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <div class="well">
+
+                                    <table class="table table-bordered table-condensed m-b-none text-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Select Item for Order Change</th>
+                                                <th>Quantity</th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="col-lg-8">
+                                                    @*//  <input class="col-lg-4" type="text" id="itemnumber" required />*@
+                                                    <div class="form-group">
+
+                                                        @Html.DropDownList("Itemid1", new SelectList(ViewBag.changeorder1, "ID", "Description"),"Please Select Item", new { @class = "form-control chosen-select", @style = "display:inline" })
+
+                                                        <input type="hidden" id="idJobData" value="@ViewBag.value" />
+
+                                                        <input type="hidden" id="idJobData2" value="@ViewBag.value1" />
+
+                                                    </div>
+                                                </td>
+
+
+                                                <td>
+                                                    <input type="text" id="idquantity1" required />
+
+
+                                                    <span class="error">Valid quantity required</span>
+                                                </td>
+
+
+
+                                                <td>
+                                                    <input type="button" class="btn btn-xs btn-black" id="add1" value="+Change Order" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div id="orderItems1" class="table-bordered">
+
+                            </div>
+
+
+
+
+                        </div>
+
+
+                    </div>
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading">
+                            <div class="panel-heading">
+                                <h6 class="panel-title"><span class="btn btn-xs btn-primary"><i class="btl btn-danger glyphicon-folder-open"></i>Change Order for the Project</span></h6>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                @if (Model.ChangeOrder != null)
+            {
+
+                <table class="table table-bordered table-condensed m-b-none text-sm">
+                    <thead>
+                        <tr>
+                            <th>Item Number</th>
+                            <th>Description</th>
+
+                            <th>Quantity</th>
+                            <th>Delete</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ChangeOrder)
+                        {
+                        <tr class="">
+                            <td><span>@item.ItemNumber</span> </td>
+                            <td><span>@item.Description</span></td>
+                            <td><span>@item.Quantity</span></td>
+                            <td>
+                                @*<a title="Edit" class="btn btn-primary btn-circle glyphicon glyphicon-edit" href="@Url.Action("CreateEdit", "User", new { id = item.Id })"></a>*@
+                            <a title="Delete" id="@item.Id" class="btn btn-xs btn-danger btn-circle glyphicon glyphicon-trash delete-link" href="@Url.Action("deleteChangeOrder", "Job")"></a>
+                        </td>
+
+                    </tr>
+                        }
+
+
+
+                    </tbody>
+                </table>
+            }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading">
+                            <div class="panel-heading">
+                                <h6 class="panel-title"><span class="btn btn-xs btn-primary"><i class="btl btn-danger glyphicon-folder-open"></i>Change Order for the Project</span></h6>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                @if (Model.dailyentry != null)
+            {
+
+                                    <table class="table table-bordered table-condensed m-b-none text-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Item Number</th>
+                                                <th>Description</th>
+
+                                                <th>Quantity</th>
+                                                <th>Delete</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.dailyentry)
+                                            {
+                                                <tr class="">
+                                                    <td><span>@item.ItemNumber</span> </td>
+                                                    <td><span>@item.Description</span></td>
+                                                    <td><span>@item.Quantity</span></td>
+                                                    <td>
+                                                        @*<a title="Edit" class="btn btn-primary btn-circle glyphicon glyphicon-edit" href="@Url.Action("CreateEdit", "User", new { id = item.Id })"></a>*@
+                                                        <a title="Delete" id="@item.Id" class="btn btn-xs btn-danger btn-circle glyphicon glyphicon-trash delete-link" href="@Url.Action("deleteChangeOrder", "Job")"></a>
+                                                    </td>
+
+                                                </tr>
+                                            }
+
+
+
+                                        </tbody>
+                                    </table>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+          
+
+                @section styles{
+                    <link href="~/Content/css/jquery.datatables.css" rel="stylesheet" />
+                    <link href="~/Content/css/dropzone.css" rel="stylesheet" />
+
+                }
+
+                @section Scripts {
+                    @Scripts.Render("~/bundles/jqueryval")
+
+                    <script src="~/Scripts/jquery.datatables.min.js"></script>
+                    <script src="~/Scripts/chosen.jquery.min.js"></script>
+                    <script src="~/Scripts/dropzone.min.js"></script>
+                    <script src="~/Scripts/dropzone.min.js"></script>
+
+                    <script>
+
+
+                        jQuery(document).ready(function () {
+
+                            $(window).load(function () {
+                                $(".chosen-select").chosen()
+                            });
+
+                            //$('#document-datatable').dataTable(
+                            //{
+                            //    "sPaginationType": "full_numbers",
+                            //    "aoColumnDefs": [
+                            //        { 'bSortable': false, 'aTargets': [-1, -2] }
+                            //    ]
+                            //});
+
+
+
+                            $('#liDaily').addClass('active');
+
+
+
+
+                            var orderItems = [];
+                            var OrderItems1=[];
+
+                            $('#add').live('click', function () {
+
+                                //Check validation of order item
+                                var isValidItem = true;
+                                //if ($('#itemnumber').val().trim() == '') {
+                                //    isValidItem = false;
+                                //    $('#itemnumber').siblings('span.error').css('visibility', 'visible');
+                                //}
+                                //else {
+                                //    $('#itemnumber').siblings('span.error').css('visibility', 'hidden');
+                                //}
+
+
+
+                                if (!($('#idquantity').val().trim() != '' && !isNaN($('#idquantity').val().trim()))) {
+                                    isValidItem = false;
+                                    $('#idquantity').siblings('span.error').css('visibility', 'visible');
+                                }
+                                else {
+                                    $('#idquantity').siblings('span.error').css('visibility', 'hidden');
+                                }
+
+
+                                //Add item to list if valid
+                                if (isValidItem) {
+                                    orderItems.push({
+                                        ItemNumber: $('#Itemid').val(),
+                                        JobDataId: $('#idJobData').val(),
+                                        //ItemNumber:$('#itemnumber').val(),
+                                        Quantity: parseInt($('#idquantity').val().trim()),
+                                    });
+
+                                    //Clear fields
+                                    //$('#itemName').val('').focus();
+                                    $('#idquantity').val('');
+                                    var isAllValid = true;
+
+
+                                    //Save if valid
+                                    if (isAllValid) {
+                                        var data = {
+
+                                            DailyEntryItems: orderItems
+                                        }
+
+                                        $(this).val('Please wait...');
+
+                                        $.ajax({
+                                            url: '/Job/SaveChangeorder',
+                                            type: "POST",
+                                            data: JSON.stringify(data),
+                                            dataType: "JSON",
+                                            contentType: "application/json",
+                                            success: function (d) {
+                                                //check is successfully save to database
+                                                if (d.status == true) {
+                                                    //will send status from server side
+                                                    alert('Successfully done.');
+                                                    //clear form
+                                                    orderItems = [];
+
+                                                }
+                                                else {
+                                                    alert('Failed');
+                                                }
+                                                $('#add').val('Save');
+                                            },
+                                            error: function () {
+                                                alert('Error. Please try again.');
+                                                $('#add').val('Save');
+                                            }
+                                        });
+                                    }
+
+                                }
+                                //populate order items
+                                GeneratedItemsTable();
+
+                            })
+
+                            $('#add1').live('click', function () {
+
+                                //Check validation of order item
+                                var isValidItem = true;
+                                //if ($('#itemnumber').val().trim() == '') {
+                                //    isValidItem = false;
+                                //    $('#itemnumber').siblings('span.error').css('visibility', 'visible');
+                                //}
+                                //else {
+                                //    $('#itemnumber').siblings('span.error').css('visibility', 'hidden');
+                                //}
+
+
+
+                                if (!($('#idquantity1').val().trim() != '' && !isNaN($('#idquantity1').val().trim()))) {
+                                    isValidItem = false;
+                                    $('#idquantity1').siblings('span.error').css('visibility', 'visible');
+                                }
+                                else {
+                                    $('#idquantity1').siblings('span.error').css('visibility', 'hidden');
+                                }
+
+
+                                //Add item to list if valid
+                                if (isValidItem) {
+                                    OrderItems1.push({
+                                        ItemNumber: $('#Itemid1').val(),
+                                        JobDataId: $('#idJobData').val(),
+                                        //ItemNumber:$('#itemnumber').val(),
+                                        Quantity: parseInt($('#idquantity1').val().trim()),
+                                    });
+
+                                    //Clear fields
+                                    //$('#itemName').val('').focus();
+                                    $('#idquantity1').val('');
+                                    var isAllValid = true;
+
+
+                                    //Save if valid
+                                    if (isAllValid) {
+                                        var data = {
+
+                                            DailyEntryItems: OrderItems1
+                                        }
+
+                                    
+                                        $.ajax({
+                                            url: '/Job/SaveChangeorder1',
+                                            type: "POST",
+                                            data: JSON.stringify(data),
+                                            dataType: "JSON",
+                                            contentType: "application/json",
+                                            success: function (d) {
+                                                //check is successfully save to database
+                                                if (d.status == true) {
+                                                    //will send status from server side
+                                                    alert('Successfully done.');
+                                                    //clear form
+                                                    OrderItems1 = [];
+
+                                                }
+                                                else {
+                                                    alert('Failed');
+                                                }
+                                              },
+                                            error: function () {
+                                                alert('Error. Please try again.');
+                                            }
+                                        });
+                                    }
+
+                                }
+                                //populate order items
+                                GeneratedItemsTable();
+
+                            })
+
+                            //Save button click function
+                            $('#submit').live('click', function () {
+                                //validation of order
+
+
+                            })
+                            //function for show added items in table
+                            function GeneratedItemsTable() {
+                                if (orderItems.length > 0) {
+                                    var $table = $('<table class="table"/>');
+                                    $table.append('<thead><tr><th>Item ID</th><th>Quantity</th></tr></thead>');
+                                    var $tbody = $('<tbody/>');
+                                    $.each(orderItems, function (i, val) {
+                                        var $row = $('<tr/>');
+                                        $row.append($('<td/>').html(val.ItemNumber));
+
+                                        $row.append($('<td/>').html(val.Quantity));
+
+                                        $tbody.append($row);
+                                    });
+                                    $table.append($tbody);
+                                    $('#orderItems').html($table);
+                                }
+                            }
+
+
+
+
+                        });
+                    </script>
+
+                    <style type="text/css">
+                        .field-validation-error {
+                            color: #f00;
+                        }
+
+                        .field-validation-valid {
+                            display: none;
+                        }
+
+                        .input-validation-error {
+                            border: 1px solid #f00;
+                            background-color: #fee;
+                        }
+
+                        .validation-summary-errors {
+                            font-weight: bold;
+                            color: #f00;
+                        }
+
+                        .validation-summary-valid {
+                            display: none;
+                        }
+                    </style>
+                    <style>
+                        /*Adding some css for looks good*/
+                        span.error {
+                            display: block;
+                            visibility: hidden;
+                            color: red;
+                            font-size: 90%;
+                        }
+
+
+                        /*css for table*/
+                        .container td {
+                            vertical-align: top;
+                        }
+
+                        .tablecontainer table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            border-top: 1px solid #BFAEAE;
+                            border-right: 1px solid #BFAEAE;
+                        }
+
+                        .tablecontainer th {
+                            border-bottom: 2px solid #BFAEAE !important;
+                        }
+
+                        .tablecontainer th, .tablecontainer td {
+                            text-align: left;
+                            border-left: 1px solid #BFAEAE;
+                            padding: 5px;
+                            border-bottom: 1px solid #BFAEAE;
+                        }
+
+                        .ui-widget {
+                            font-size: 12px !important;
+                        }
+                    </style>
+
+
+
+
+                }
+
+

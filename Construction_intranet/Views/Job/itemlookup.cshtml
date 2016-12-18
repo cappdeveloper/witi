@@ -1,0 +1,129 @@
+﻿
+
+    
+
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Job:</label>
+                <div class="col-sm-8">
+                    @Html.DropDownList("JobId", new SelectList(ViewBag.oJob, "ID", "Name"), new { @class = "form-control", @style = "display:inline" })
+
+
+                </div>
+                <label class="col-sm-4 control-label">Select Item Number:</label>
+
+                <div class="col-sm-8">
+                  <select  class="form-control" style="display:inline" id="state"></select>
+
+                    </div>
+
+              
+                <a  id="submit1">Search See</a>
+
+            </div>
+<div id="detailsection" class="well">
+  
+</div>
+
+
+
+
+
+
+
+    <!-- /panel with right icon dropdown -->
+
+
+
+
+
+
+@section styles{
+    <link href="~/Content/css/jquery.datatables.css" rel="stylesheet" />
+  
+
+}
+
+@section Scripts {
+
+    <script src="~/Scripts/jquery.datatables.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+
+
+    <script>
+        jQuery(document).ready(function () {
+
+            $("#submit1").on("click", function () {
+                var jobid = $("#JobId").val();
+                var itemid = $("#state").val();
+
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: "/Job/itemlookups",
+                    data: { "jobid": jobid, "itemid": itemid },
+                    dataType: "html",
+                    beforeSend: function (msg) {
+                        $(".loader").show();
+                    },
+                    success: function(data){ 
+                        //var message = data.Message; 
+                     
+                        $('#detailsection').html(data)
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve inventories.');
+                    }
+                });
+            });
+
+
+            //$('#document-datatable').dataTable(
+            //{
+            //    "sPaginationType": "full_numbers",
+            //    "aoColumnDefs": [
+            //        { 'bSortable': false, 'aTargets': [-1, -2] }
+            //    ]
+            //});
+
+            // Chosen Select
+
+
+            // Delete row in a table
+            jQuery('.delete-row').click(function () {
+                var c = confirm("Continue delete?");
+                if (c)
+                    jQuery(this).closest('tr').fadeOut(function () {
+                        jQuery(this).remove();
+                    });
+
+                return false;
+            });
+
+            // Show aciton upon row hover
+            jQuery('.table-hidaction tbody tr').hover(function () {
+                jQuery(this).find('.table-action-hide a').animate({ opacity: 1 });
+            }, function () {
+                jQuery(this).find('.table-action-hide a').animate({ opacity: 0 });
+            });
+
+            $('#liDaily').addClass('active');
+
+
+
+
+            //Save button click function
+            //function for show added items in table
+
+
+        });
+
+     
+     </script>
+
+   
+
+
+
+}
+
+

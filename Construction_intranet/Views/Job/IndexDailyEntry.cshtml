@@ -1,0 +1,213 @@
+﻿@model List<Construction_intranet.Models.JobDataModel>
+
+
+<section class="hbox stretch">
+
+    <aside class="aside-md bg-white b-r scrollable" id="subNav">
+        <div class="wrapper b-b header"> All Daily Entry/Adjustment</div>
+
+
+        <ul class="nav">
+
+
+            <li class="b-b b-light ">
+                <a href="/Job/DailyEntry/@ViewBag.Id"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-file-o"></i>+ Daily Entry/Adjustment</a>
+            </li>
+            <li class="b-b b-light ">
+                <a href="/Job/ChangeOrder/@ViewBag.Id"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-clock-o"></i>Add a Change Order</a>
+            </li>
+
+            <li class="b-b b-light bg-light dker text-white">
+                <a href="/Job/IndexDailyEntry/@ViewBag.Id"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-map-marker"></i>Daily Lookup</a>
+            </li>
+
+
+            <li class="b-b b-light">
+                <a href="/Job/ItemResult/@ViewBag.Id"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-pencil"></i>Item Lookup</a>
+            </li>
+            <li class="b-b b-light">
+                <a href="/Job/CreateEditPayment/@ViewBag.Id"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>Create Payment</a>
+            </li>
+            <li class="b-b b-light">
+                <a href="/Job/IndexPayment/@ViewBag.Id"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>All Payments</a>
+            </li>
+            <li class="b-b b-light">
+                <a href="/Job/InvoiceScreen/@ViewBag.Id"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>Invoice</a>
+            </li>
+
+
+
+
+        </ul>
+
+    </aside>
+  
+    <aside>
+        <section class="vbox">
+         
+
+
+
+            <section class="scrollable wrapper">
+                <!-- Load the settings form in views -->
+                <div class="row">
+                    <div class="panel panel-default">
+                        <header class="panel-heading">
+                           Daily Entry
+                            <a href="/Job/DailyEntry/@ViewBag.Id" class="btn btn-xs btn-dark pull-right">[+]Add New</a>
+
+                        </header>
+                        
+                        <div class="panel-body">
+                            @Html.Partial("_InlineAlerts")
+
+                            <br />
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-condensed m-b-none text-sm" id="challenger-datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>Added Date</th>
+                                            <th>Estimate Number</th>
+                                            <th>Job Shift</th>
+                                            <th>Type</th>
+                                            <th>Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null && Model.Count() > 0)
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td><span><a href="@Request.ApplicationPath.TrimEnd('/')/Job/DailyEntryDetails/@item.ID">@item.Date.ToLongDateString())</a></span></td>
+                                                    <td>@Html.DisplayFor(model => item.Estimate)</td>
+
+                                                    <td>@Html.DisplayFor(model => item.Shift)</td>
+                                                    <td>
+                                                        @if (item.EntryType == null)
+                                                    {
+                                                        <b>Entry</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p>Adjustment</p>
+                                                    }
+                                                </td>
+
+
+                                                <td>
+                                                    <a title="Edit" class="btn btn-xs btn-primary btn-circle glyphicon glyphicon-edit" href="@Url.Action("DailyEntryEdit", "Job", new { id = item.ID })"></a>
+                                                    <a title="Delete" class="btn btn-xs btn-danger delete-link btn-circle glyphicon   glyphicon-minus-sign" href="@Url.Action("DeleteEntry", "Job", new { id = item.ID })"></a>
+                                                    <a title="Copy" id="copy_me" class="btn btn-xs btn-warning  btn-circle glyphicon   glyphicon-pencil" href="@Url.Action("CopyEntry", "Job", new { id = item.ID })"></a>
+
+
+                                                </td>
+
+                                            </tr>
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- table-responsive -->
+                        </div>
+                    </div>
+                    </div>
+                </section></aside>
+    </section>
+                    @section styles{
+                        <link href="~/Content/css/jquery.datatables.css" rel="stylesheet" />
+                    }
+
+                
+
+                    @section scripts{
+                        <script src="~/Scripts/jquery.datatables.min.js"></script>
+                        <script src="~/Scripts/chosen.jquery.min.js"></script>
+
+                        <script>
+                            jQuery(document).ready(function () {
+
+
+                                $('#challenger-datatable').dataTable(
+                                {
+                                    "sPaginationType": "full_numbers",
+                                    "aoColumnDefs": [
+                                        { 'bSortable': false, 'aTargets': [-1, -2, -3, -4, -5] }
+                                    ]
+                                });
+
+                                // Chosen Select
+                                jQuery("select").chosen({
+                                    'min-width': '100px',
+                                    'white-space': 'nowrap',
+                                    disable_search_threshold: 10
+                                });
+                                $('.table .active-link').live('click', function (e) {
+                                    e.preventDefault();
+                                    challengerApp.ActiveData(e);
+                                    return false;
+                                });
+
+                                // Delete row in a table
+                                jQuery('.delete-row').click(function () {
+                                    var c = confirm("Continue delete?");
+                                    if (c)
+                                        jQuery(this).closest('tr').fadeOut(function () {
+                                            jQuery(this).remove();
+                                        });
+
+                                    return false;
+                                });
+
+                                $('#copy_me').live('click', function () {
+                                    //validation of order
+                                  
+
+
+                                        $.ajax({
+                                            url: '/Job/CopyEntry',
+                                            type: "POST",
+                                            data: '{"data":"' + param + '"}',
+                                            dataType: "JSON",
+                                            contentType: "application/json",
+                                            success: function (d) {
+                                                //check is successfully save to database
+                                                if (d.status == true) {
+                                                    //will send status from server side
+                                                    alert('Successfully Copied.');
+                                                    //clear form
+                                                    orderItems = [];
+
+                                                }
+                                                else {
+                                                    alert('Failed');
+                                                }
+                                            },
+                                            error: function () {
+                                                alert('Error. Please try again.');
+                                              
+                                            }
+                                        });
+                                    }
+
+                                })
+
+
+
+                                $('#liDaily').addClass('active');
+                                // Show aciton upon row hover
+                                jQuery('.table-hidaction tbody tr').hover(function () {
+                                    jQuery(this).find('.table-action-hide a').animate({ opacity: 1 });
+                                }, function () {
+                                    jQuery(this).find('.table-action-hide a').animate({ opacity: 0 });
+                                });
+
+
+                            });
+                        </script>
+                    }
+
+

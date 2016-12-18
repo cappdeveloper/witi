@@ -1,0 +1,191 @@
+﻿
+
+
+    <div class="panel">
+      
+        <div class="panel-body">
+         
+            <br />
+            <div class="table-responsive">
+               
+                
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Item Number</th>
+                                    <th>Description</th>
+                                    <th>UnitType</th>
+                                    <th>Rate/Unit</th>
+                                    <th>Quantity</th>
+                                    
+                                </tr>
+                                </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="col-lg-4">
+                                        <input class="col-lg-4"   type="text" id="itemnumber"  required />
+
+
+                                    </td>
+
+                                    <td class="col-lg-12">
+                                        <input type="text" class="col-lg-12" id="itemName"  for="inputdefault"  placeholder="Description" required />
+
+
+                                        <span class="error">Item name required</span>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="unittype" required />
+
+
+                                    </td>
+                                    <td>
+                                        <input type="text" id="rate"  required />
+
+
+                                        <span class="error">Valid rate required</span>
+                                    </td>
+                                    <td >
+                                        <input type="text" id="quantity"  required />
+
+                                     
+                                        <span class="error">Valid quantity required</span>
+                                    </td>
+                                   
+                                  
+
+                                  
+                                </tr>
+                                <tr>
+                                    <th>SubContractor</th>
+                                    <th>Quantity Assign</th>
+                                    <th>Unit Price</th>
+                                <tr />
+                                <tr>
+                                    <td class="col-lg-10">
+
+                                        <div class="form-group">
+
+                                            @Html.DropDownList("SubContractorId", new SelectList(ViewBag.oSubContractor, "id", "Name"), "Please Select", new { @class = "form-control" })
+
+
+                                        </div>
+</td>
+                                    <td>
+
+                                        <input type="text" id="idsQuantity" required />
+
+
+                                     
+                                               </td>
+
+
+
+                                    <td>
+                                        <input type="text" id="idsunit" required />
+
+
+                                        <span class="error">Unit Price SubContractor</span>
+  </td>
+
+                                    <td>
+                                        <input type="button" class="btn btn-primary" id="add" value="+" />
+                                    </td>
+                                </tr> 
+                            </tbody>
+</table>
+                </div>
+            
+                    <div id="orderItems" class="table-bordered">
+
+                    </div>
+                   
+</div>
+        </div>
+
+
+
+        <style type="text/css">
+            .field-validation-error {
+                color: #f00;
+            }
+
+            .field-validation-valid {
+                display: none;
+            }
+
+            .input-validation-error {
+                border: 1px solid #f00;
+                background-color: #fee;
+            }
+
+            .validation-summary-errors {
+                font-weight: bold;
+                color: #f00;
+            }
+
+            .validation-summary-valid {
+                display: none;
+            }
+        </style>
+        <style>
+            /*Adding some css for looks good*/
+            span.error {
+                display: block;
+                visibility: hidden;
+                color: red;
+                font-size: 90%;
+            }
+
+
+            /*css for table*/
+            .container td {
+                vertical-align: top;
+            }
+
+            .tablecontainer table {
+                width: 100%;
+                border-collapse: collapse;
+                border-top: 1px solid #BFAEAE;
+                border-right: 1px solid #BFAEAE;
+            }
+
+            .tablecontainer th {
+                border-bottom: 2px solid #BFAEAE !important;
+            }
+
+            .tablecontainer th, .tablecontainer td {
+                text-align: left;
+                border-left: 1px solid #BFAEAE;
+                padding: 5px;
+                border-bottom: 1px solid #BFAEAE;
+            }
+
+            .ui-widget {
+                font-size: 12px !important;
+            }
+        </style>
+
+@section scripts
+{
+<script src="~/Scripts/jquery.datatables.min.js"></script>
+<script src="~/Scripts/chosen.jquery.min.js"></script>
+<script src="~/Scripts/dropzone.min.js"></script>
+<script src="~/Scripts/dropzone.min.js"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+
+        
+            $(".chosen-select").chosen();
+
+        });
+    </script>
+
+}
+
+
+
+
+
+  

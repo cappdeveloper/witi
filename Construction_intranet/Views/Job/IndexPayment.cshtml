@@ -1,0 +1,127 @@
+﻿@model List<Construction_intranet.Models.PaymentModel>
+@{
+    ViewBag.Title = "IndexPayment";
+}
+
+
+<section class="hbox stretch">
+
+    <aside class="aside-md bg-white b-r scrollable" id="subNav">
+        <div class="wrapper b-b header"> All Payments<span class="label label-success"> </span></div>
+
+
+
+        <ul class="nav">
+
+
+            <li class="b-b b-light ">
+                <a href="/Job/DailyEntry/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-file-o"></i>+ Daily Entry/Adjustment</a>
+            </li>
+            <li class="b-b b-light ">
+                <a href="/Job/ChangeOrder/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-clock-o"></i>Add a Change Order</a>
+            </li>
+
+            <li class="b-b b-light ">
+                <a href="/Job/IndexDailyEntry/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-map-marker"></i>Daily Lookup</a>
+            </li>
+
+
+            <li class="b-b b-light">
+                <a href="/Job/ItemResult/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-pencil"></i>Item Lookup</a>
+            </li>
+            <li class="b-b b-light">
+                <a href="/Job/CreateEditPayment/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>Create Payment</a>
+            </li>
+            <li class="b-b b-light bg-light dker text-white">
+                <a href="/Job/IndexPayment/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>All Payments</a>
+            </li>
+            <li class="b-b b-light">
+                <a href="/Job/InvoiceScreen/@ViewBag.jobid"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>Invoice</a>
+            </li>
+
+
+
+
+        </ul>
+
+    </aside>
+
+
+    <aside>
+        <section class="vbox">
+         
+
+            <section class="scrollable wrapper">
+                <!-- Load the settings form in views -->
+                <input type="hidden" value="@ViewBag.jobid" id="Jobid" />
+                </br/>
+             
+                 <div class="table-responsive">
+                    @if (ViewBag.Payment != null)
+            {
+                        <table class="table table-bordered table-condensed m-b-none text-sm" id="challenger-datatable">
+                            <thead>
+                                <tr>
+                                    <th>To</th>
+                                    <th>From</th>
+                                    <th>Created</th>
+                                    <th>Item Number</th>
+                                    <th>Unit Price</th>
+                                    <th>Units</th>
+                                    <th>Total</th>
+                                    <th>Action</th>
+
+                                 
+                                    @*<th>Contractor</th>*@
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.Payment)
+                                {
+                                 <tr>
+                                        <td>@item.Clientname</td>
+                                       
+                                        <td class="btn-orange"><span>@item.GeneralContractorName</span> </td>
+
+                                        <td class="btn-orange"><span>@item.createddate</span> </td>
+                                        <td class="btn-orange"><span>@item.itemnumber</span> </td>
+                                        <td class="btn-orange">$<span>@item.UnitPrice  </span> </td>
+                                        <td class="btn-success"><span>@item.units </span> </td>
+                                        <td class="btn-success">$<span>@(item.units * @item.UnitPrice)</span> </td>
+                                     <td><a title="Delete" class="btn btn-xs btn-danger delete-link btn-circle glyphicon   glyphicon-minus-sign" href="@Url.Action("deletepayment", "Job", new { id = item.id })"></a>
+
+</td>
+
+
+
+
+                                    </tr>
+
+                                }
+
+                            </tbody>
+                        </table>}
+            else
+            {
+                        <div>No Info Found</div>}
+                </div>
+
+
+
+                <!-- table-responsive -->
+
+            </section>
+        </section>
+    </aside>
+
+
+    <!-- Load the settings form in views -->
+    <!-- table-responsive -->
+
+
+
+</section>
+
+
+

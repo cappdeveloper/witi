@@ -1,0 +1,16 @@
+﻿
+@if (TempData.ContainsKey("success"))
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Success!</strong> @Html.Encode(TempData["success"])
+    </div>
+}
+@if (TempData.ContainsKey("error"))
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Oh snap!</strong> @Html.Encode(TempData["error"])
+             
+    </div>
+}

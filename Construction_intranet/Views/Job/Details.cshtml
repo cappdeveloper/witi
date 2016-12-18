@@ -1,0 +1,268 @@
+﻿
+
+@model Construction_intranet.Models.JobModel
+@{
+    ViewBag.Title = "Details";
+  
+}
+
+
+    <div class="pageheader">
+        <div class="page-bar">
+
+            <div class="breadcrumb-line right">
+                <ul class="breadcrumb right">
+                
+                    <li class="active">Project Details</li>
+                </ul>
+
+
+                <a href="/Client/Index" class="btn btn-icon btn-danger btn-icon btn-xs tip" title="" data-original-title="Add New Client"><i class="icon-bubble-replu"></i></a>
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading"><h6 class="panel-title"><span class="label label-primary"> <i class="icon-user"></i> @Model.Name / @Model.ContractorName Detail Section</span></h6></div>
+        <div class="panel-body">
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Project Name:</label>
+                        <strong>@Model.Name</strong>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Contractor Name:</label>
+                        <strong>@Model.ContractorName</strong>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Address:</label>
+                        <strong> @Model.Address</strong>
+
+
+                    </div>
+                    <div class="col-md-6">
+                        <label>Contact Number:</label>
+                        <strong>@Model.Phone</strong>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+
+
+                    <div class="col-md-6">
+                        <label>City:</label>
+                        <strong> @Model.City</strong>
+
+                    </div>
+                    <div class="col-md-6">
+                        <label>Stae:</label>
+
+                        <strong>@Model.State</strong>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Zip Code:</label>
+
+                        <strong>@Model.Zip</strong>
+
+                    </div>
+                    <div class="col-md-6">
+                        <label> Email:</label>
+                        <strong> @Model.Email</strong>
+                    </div>
+
+                </div>
+            </div>
+            
+
+
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Create Date:</label>
+                        <strong> @Model.Created_Date</strong>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Last Modified</label>
+                        <strong>@Model.Modified_date</strong>
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+    </div>
+
+
+
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading">
+            <div class="panel-heading">
+                <h6 class="panel-title"><span class="btn btn-xs btn-danger"><i class="btn btn-xs btn-danger"></i>Items Added For @Model.Name</span></h6>
+            </div>
+        </div>
+        <div class="panel-body">
+            @if (Model.ItemDetails1 != null)
+            {
+
+                <table class="table table-bordered table-condensed m-b-none text-sm">
+                    <thead>
+                        <tr>
+                            <th>Item Number</th>
+                            <th>Description</th>
+                            <th>Unit Type</th>
+                            <th>Rate/Unit</th>
+                            <th>Quantity</th>
+                            
+                            <th>SubContractorName</th>
+                            <th>Rate/Unit</th>
+                            <th>Quantity</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ItemDetails1)
+                        {
+                            <tr class="">
+                                <td><span>@item.ItemNumber</span> </td>
+                                <td><span>@item.Description</span></td>
+                                <td><span>@item.UnitType</span></td>
+                                <td><span>@item.UnitPrice</span></td>
+                                <td><span>@item.InitialQuantity</span></td>
+                              @if(@item.subcontractor_Name!=null)
+                                {
+                                <td><span>@item.subcontractor_Name</span></td>
+                                <td><span>@item.SubUnit_price</span></td>
+
+                                <td><span>@item.SubContractorQuantity</span></td>
+                              }
+                              else
+                              {
+                                <td><span>--</span></td>
+                                <td><span>--</span></td>
+
+                                <td><span>--</span></td>
+
+                              }
+                            
+                             <td><a title="Delete" class="btn btn-danger btn-xs delete-link btn-circle glyphicon   glyphicon-minus-sign" href="@Url.Action("deleteItems", "Job", new { id = item.ID })"></a>
+</td>
+
+
+
+                            </tr>
+                        }
+
+
+
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+    <div class="panel panel-default">
+
+        <div class="panel-heading">
+            <div class="panel-heading">
+                <h6 class="panel-title"><span class="btn btn-xs btn-primary"><i class="btl btn-danger glyphicon-folder-open"></i>Change Order for the Project</span></h6>
+            </div>
+        </div>
+        <div class="panel-body">
+            @if (Model.ChangeOrder != null)
+            {
+
+                <table class="table table-bordered table-condensed m-b-none text-sm">
+                    <thead>
+                        <tr>
+                            <th>Item Number</th>
+                            <th>Description</th>
+                          
+                            <th>Quantity</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ChangeOrder)
+                        {
+                            <tr class="">
+                                <td><span>@item.ItemNumber</span> </td>
+                                <td><span>@item.Description</span></td>
+                                <td><span>@item.Quantity</span></td>
+                                <td>
+                                    <a title="Delete" class="btn btn-xs btn-danger delete-link btn-circle glyphicon   glyphicon-minus-sign" href="@Url.Action("deleteChangeOrder", "Job", new { id = item.Id })"></a>
+                                </td>
+
+                            </tr>
+                        }
+
+
+
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+
+@section breadcrumbs{
+    <li><a href="/Job/Index">Jobs</a></li>
+
+    <li class="active"><span>Job Detail</span></li>
+}
+
+
+
+
+@section scripts{
+<script type="text/javascript">
+    $('#liJ').addClass('active');
+</script>
+    }
+
+
+
+

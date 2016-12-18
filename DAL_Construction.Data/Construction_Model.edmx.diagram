@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="28d0a6bd43ad438da4871bc458085eec" Name="Diagram1" ZoomLevel="89">
+        <EntityTypeShape EntityType="Construction_DBModel.C__MigrationHistory" Width="1.5" PointX="7.75" PointY="8.75" />
+        <EntityTypeShape EntityType="Construction_DBModel.AspNetRole" Width="1.5" PointX="0.75" PointY="11.25" />
+        <EntityTypeShape EntityType="Construction_DBModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="12.25" />
+        <EntityTypeShape EntityType="Construction_DBModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="9.75" />
+        <EntityTypeShape EntityType="Construction_DBModel.AspNetUser" Width="1.5" PointX="3" PointY="9.125" />
+        <EntityTypeShape EntityType="Construction_DBModel.Change_Order" Width="1.5" PointX="7.5" PointY="1.125" />
+        <EntityTypeShape EntityType="Construction_DBModel.DailyItem" Width="1.5" PointX="7.5" PointY="4.25" />
+        <EntityTypeShape EntityType="Construction_DBModel.Item" Width="1.5" PointX="5.25" PointY="2.375" />
+        <EntityTypeShape EntityType="Construction_DBModel.Job" Width="1.5" PointX="3" PointY="2.25" />
+        <EntityTypeShape EntityType="Construction_DBModel.JobData" Width="1.5" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Construction_DBModel.payment" Width="1.5" PointX="9.75" PointY="4.75" />
+        <EntityTypeShape EntityType="Construction_DBModel.tbl_sub_contractor" Width="1.5" PointX="9.75" PointY="8.75" />
+        <EntityTypeShape EntityType="Construction_DBModel.tblContractor" Width="1.5" PointX="0.75" PointY="2.25" />
+        <EntityTypeShape EntityType="Construction_DBModel.tblDailyEquipment" Width="1.5" PointX="11.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Construction_DBModel.tblEquipment" Width="1.5" PointX="11.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Construction_DBModel.tblworkforce" Width="1.5" PointX="11.75" PointY="6.75" />
+        <AssociationConnector Association="Construction_DBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="Construction_DBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="Construction_DBModel.FK_Change_Order_Item" />
+        <AssociationConnector Association="Construction_DBModel.FK_DailyItems_Item" />
+        <AssociationConnector Association="Construction_DBModel.FK_Item_Job1" />
+        <AssociationConnector Association="Construction_DBModel.FK_Job_Job" />
+        <AssociationConnector Association="Construction_DBModel.AspNetUserRoles" />
+        <AssociationConnector Association="Construction_DBModel.FK_AspNetUsers_tblContractor" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,261 @@
+﻿
+
+@model Construction_intranet.Models.JobDataModel
+@{
+    ViewBag.Title = "Details";
+
+}
+<section class="hbox stretch">
+
+
+    <aside class="aside-md bg-white b-r scrollable" id="subNav">
+        <div class="wrapper b-b header"> Details Daily Entry/Adjustment</div>
+
+
+        <ul class="nav">
+
+
+            <li class="b-b b-light ">
+                <a href="/Job/DailyEntry/@Model.JobID"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-file-o"></i>+ Daily Entry/Adjustment</a>
+            </li>
+            <li class="b-b b-light ">
+                <a href="/Job/ChangeOrder/@Model.JobID"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-clock-o"></i>Add a Change Order</a>
+            </li>
+
+            <li class="b-b b-light bg-light dker text-white ">
+                <a href="/Job/IndexDailyEntry/@Model.JobID"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-map-marker"></i>Daily Lookup</a>
+            </li>
+
+
+            <li class="b-b b-light">
+                <a href="/Job/ItemResult/@Model.JobID"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-pencil"></i>Item Lookup</a>
+            </li>
+            <li class="b-b b-light">
+                <a href="/Job/CreateEditPayment/@Model.JobID"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>Create Payment</a>
+            </li>
+            <li class="b-b b-light">
+                <a href="/Job/IndexPayment/@Model.JobID"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>All Payments</a>
+            </li>
+            <li class="b-b b-light">
+                <a href="/Job/InvoiceScreen/@Model.JobID"><i class="fa fa-chevron-right pull-right m-t-xs text-xs text-info"></i> <i class="fa fa-dollar"></i>Invoice</a>
+            </li>
+
+
+
+
+        </ul>
+
+    </aside>
+
+    <aside>
+        <section class="vbox">
+           
+
+            <section class="scrollable wrapper">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <h5 class="subtitle mb10"><label class="label label-info">Job Name</label></h5>
+                                <address>
+                                    <p><strong>@Model.JobID /@Model.JobName</strong></p>
+
+                                    <p><strong>Weather:</strong>@Model.Weather</p>
+                                    <p><strong>Temperature:</strong>@Model.Temperature</p>
+                                    <p><strong>Shift:</strong>@Model.Shift</p>
+                                </address>
+
+
+                            </div><!-- col-sm-6 -->
+
+                            <div class="col-sm-8 text-right">
+
+                                <button class="btn btn-xs btn-success mr5"><i class="fa fa-user"></i>Estimate-@Model.Estimate</button>
+
+
+                                <h5 class="subtitle mb10"><label class="label label-success">@Model.Date.ToLongDateString()</label></h5>
+
+
+
+                            </div>
+                        </div><!-- row -->
+
+                        <div class="col-lg-12">
+                            <section class="panel panel-body">
+                                <div class="progress progress-xs m-t-sm">
+                                    <div class="progress-bar progress-bar-success" data-toggle="tooltip" data-original-title="100%" style="width: 100%"></div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <a class="btn btn-danger">Workforce</a>
+
+                                    @if (Model.workforce != null)
+                                    {
+
+                                        <ul class="list-group no-radius">
+                                            @foreach (var item in Model.workforce)
+                                            {
+                                                <li class="list-group-item">
+                                                    <span class="pull-right">@item.numberof</span>
+                                                    <b>  @item.Workforcename</b>
+
+
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+
+
+
+
+                                </div>
+
+                                <!-- End details C1-->
+                                <div class="col-sm-6">
+                                    <a class="btn btn-primary"> Equipment</a>
+                                    @if (Model.equipment != null)
+                                    {
+
+                                        <ul class="list-group no-radius">
+                                            @foreach (var item in Model.equipment)
+                                            {
+                                                <li class="list-group-item">
+
+
+                                                    <span class="pull-right">@item.numberof</span>
+                                                    <b>@item.Equipment_name</b>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+
+                                <!-- End details -->
+                            </section>
+                        </div>
+
+
+
+
+                        <div class="table table-bordered table-condensed m-b-none text-sm">
+                            <a class="btn btn-primary">General Contractor Item</a>
+                            @if (Model.DailyEntryItems != null)
+{
+
+                <table class="table table-bordered table-condensed m-b-none text-sm">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Item Number</th>
+
+                            <th>Location</th>
+                            <th>Quantity</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.DailyEntryItems)
+{
+
+                            <tr>
+                                <td>
+                                    <div class="text-primary"><strong>@item.Description</strong></div>
+                                </td>
+                                <td>@item.ItemNumber</td>
+
+
+                                <td>@item.Location</td>
+                                <td>@item.Quantity</td>
+
+
+
+
+
+                            </tr>
+}
+                    </tbody>
+                </table>
+
+                }
+                        </div>
+                        <div class="table table-bordered table-condensed m-b-none text-sm">
+                            <a class="btn btn-danger">Sub Contractor Item</a>
+
+                            @if (Model.DailyEntryItems1 != null)
+{
+
+        <table class="table table-bordered table-condensed m-b-none text-sm">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Item Number</th>
+
+                    <th>Subcontractor</th>
+                    <th>Name</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.DailyEntryItems1)
+{
+
+                            <tr>
+                                <td>
+                                    <div class="text-primary"><strong>@item.Description</strong></div>
+                                </td>
+                                <td>@item.ItemNumber</td>
+
+
+                                <td>@item.SubcontractorName</td>
+                                <td>@item.Unit_Contractor</td>
+
+
+
+
+
+                            </tr>
+}
+            </tbody>
+        </table>
+
+                }
+                        </div><!-- table-responsive -->
+
+                    </br>
+
+                        <div class="act-media-body">
+                            <button class="btn btn-xs btn-success mr5">Notes-></button>
+                            @Model.Notes
+                        </div>
+
+
+                    </div><!-- panel-body -->
+                </div>
+
+
+
+                @section scripts
+{
+                    <script type="text/javascript">
+
+                        $('#liDaily').addClass('active');
+                    </script>
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
